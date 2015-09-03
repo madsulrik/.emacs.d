@@ -1,0 +1,16 @@
+auto-save-list
+backups
+*~
+.places
+session.*
+elpa
+*.elc
+.DS_Store
+.cask
+/url/
+/var/
+/.sx/
+/ensime/
+recentf
+ido.last
+*.dat
