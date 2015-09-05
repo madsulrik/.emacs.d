@@ -29,7 +29,8 @@
                         magit
                         marmalade
 			python-mode
-                        solarized-theme)
+                        solarized-theme
+			yasnippet)
   "Default packages")
 
 (defun mads/packages-installed-p ()
@@ -130,6 +131,12 @@
 ;; Setup python mode
 (require 'python-mode)
 
+;; yasnippet setup
+(require 'yasnippet)
+
+(yas-global-mode 1)
+
+
 
 ;; Theme
 (if window-system
@@ -154,3 +161,4 @@
 
 ;; Bind this to C-t
 (global-set-key (kbd "C-x t") 'cycle-my-theme)
+
