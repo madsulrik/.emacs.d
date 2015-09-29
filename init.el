@@ -52,7 +52,7 @@
 
 (setq inhibit-splash-screen t
       initial-scratch-message nil
-      initial-major-mode 'org-mode)
+      initial-major-mode 'fsharp-mode)
 
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -63,7 +63,7 @@
 
 (setq indent-tabs-mode nil)
 
-(global-set-key (kbd "RET") 'newline-and-indent)
+;; (global-set-key (kbd "RET") 'newline-and-indent)
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "C-+") 'text-scale-increase)
@@ -81,9 +81,17 @@
 (setq ido-enable-flex-matching t
       ido-use-virtual-buffers t)
 
-;; line numbers
+;; line numbers and column numbers
 (require 'linum)
 (global-linum-mode t)
+(setq column-number-mode t)
+
+;;Display time
+(display-time-mode 1)
+(setq display-time-string-forms
+       '((propertize (concat " " 24-hours ":" minutes " ")
+ 		    'face 'egoge-display-time)))
+
 
 ;; random setups
 
