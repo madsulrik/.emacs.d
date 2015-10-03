@@ -68,7 +68,7 @@
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
-(global-set-key (kbd "C-c C-k") 'compile)
+;;(global-set-key (kbd "C-c C-k") 'compile)
 (global-set-key (kbd "C-x g") 'magit-status)
 
 ;; Fix alt keys
@@ -101,7 +101,6 @@
 
 ;; fsharp mode setup
 (require 'fsharp-mode)
-
 (setq inferior-fsharp-program "/usr/bin/fsharpi --readline-")
 (setq fsharp-compiler "/usr/bin/fsharpc")
 
