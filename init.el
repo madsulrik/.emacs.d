@@ -101,8 +101,8 @@
 
 ;; fsharp mode setup
 (require 'fsharp-mode)
-(setq inferior-fsharp-program "/usr/bin/fsharpi --readline-")
-(setq fsharp-compiler "/usr/bin/fsharpc")
+(setq inferior-fsharp-program "/usr/local/bin/fsharpi --readline-")
+(setq fsharp-compiler "/usr/local/bin/fsharpc")
 
 (add-hook 'fsharp-mode-hook
  (lambda ()
