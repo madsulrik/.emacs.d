@@ -3,7 +3,7 @@
 (setq user-mail-address "mail@madsulrik.com")
 
 ;; Setting Environment
-(setenv "PATH" (concat "/usr/local/bin:/opt/local/bin:/usr/bin:/bin" (getenv "PATH")))
+(setenv "PATH" (concat "/usr/local/bin:/opt/local/bin:/usr/bin:/bin:" (getenv "PATH")))
 (require 'cl)
 
 ;; Initialize Package Mangement
@@ -30,7 +30,8 @@
                         marmalade
 			python-mode
                         solarized-theme
-			yasnippet)
+			yasnippet
+			expand-region)
   "Default packages")
 
 (defun mads/packages-installed-p ()
@@ -74,6 +75,8 @@
 ;; Fix alt keys
 (setq mac-option-key-is-meta t)
 (setq mac-right-option-modifier nil)
+
+(pending-delete-mode t)
 
 
 ;; enable ido mode
@@ -143,7 +146,30 @@
 
 (yas-global-mode 1)
 
+;; Expand region setup
+(require 'expand-region)
+(global-set-key (kbd "C-'") 'er/expand-region)
 
+;; 
+;; org mode setup
+;;
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((sh         . t)
+   (js         . t)
+   (emacs-lisp . t)
+   (perl       . t)
+   (scala      . t)
+   (clojure    . t)
+   (python     . t)
+   (ruby       . t)
+   (dot        . t)
+   (css        . t)
+   (plantuml   . t)))
+
+(setq org-src-fontify-natively t)
+(setq org-confirm-babel-evaluate nil)
 
 ;; Theme
 (if window-system
