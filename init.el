@@ -31,6 +31,8 @@
 			python-mode
                         solarized-theme
 			yasnippet
+                        htmlize
+                        less-css-mode
 			expand-region)
   "Default packages")
 
@@ -153,6 +155,23 @@
 ;; 
 ;; org mode setup
 ;;
+(require 'ox-latex)
+(add-to-list 'org-latex-classes
+          '("org-noter"
+             "\\documentclass[a4paper]{article}
+              \\usepackage[utf8]{inputenc}
+              \\usepackage[danish]{babel}
+              \\usepackage [T1]{fontenc}
+              \\usepackage[margin=2.5cm]{geometry}
+              \\usepackage{hyperref}
+              \\usepackage{graphicx}
+              \\usepackage{amsmath}
+              \\setlength\\parindent{0pt}"))
+
+
+(add-to-list 'load-path "~/.emacs.d/")
+(load "ob-fsharp.el")
+
 
 (org-babel-do-load-languages
  'org-babel-load-languages
@@ -166,10 +185,17 @@
    (ruby       . t)
    (dot        . t)
    (css        . t)
-   (plantuml   . t)))
+   (plantuml   . t)
+   (fsharp     . t)))
 
 (setq org-src-fontify-natively t)
 (setq org-confirm-babel-evaluate nil)
+
+(setq org-export-with-section-numbers nil)
+
+;; less Mode
+(require 'less-css-mode)
+(add-to-list 'auto-mode-alist '("\\.less$" . less-css-mode))
 
 ;; Theme
 (if window-system
