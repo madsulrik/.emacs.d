@@ -169,10 +169,6 @@
               \\setlength\\parindent{0pt}"))
 
 
-(add-to-list 'load-path "~/.emacs.d/")
-(load "ob-fsharp.el")
-
-
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((sh         . t)
@@ -185,8 +181,7 @@
    (ruby       . t)
    (dot        . t)
    (css        . t)
-   (plantuml   . t)
-   (fsharp     . t)))
+   (plantuml   . t)))
 
 (setq org-src-fontify-natively t)
 (setq org-confirm-babel-evaluate nil)
