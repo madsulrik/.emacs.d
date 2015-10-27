@@ -37,19 +37,36 @@
 \definecolor{greencomments}{rgb}{0,0.5,0}
 \definecolor{turqusnumbers}{rgb}{0.17,0.57,0.69}
 \definecolor{redstrings}{rgb}{0.5,0,0}
+\definecolor{lightgray}{RGB}{240, 240, 240}
+
 
 \lstdefinelanguage{FSharp}
-                {morekeywords={let, new, match, with, rec, open, module, namespace, type, of, member, and, for, in, do, begin, end, fun, function, try, mutable, if, then, else},
-    keywordstyle=\color{bluekeywords},
-    sensitive=false,
-    morecomment=[l][\color{greencomments}]{///},
-    morecomment=[l][\color{greencomments}]{//},
-    morecomment=[s][\color{greencomments}]{{(*}{*)}},
-    morestring=[b]",
-    stringstyle=\color{redstrings}
-    }
+				{morekeywords={\#load, \#r, let, new, match, with, rec, open, module, namespace, type, of, member, and, for, in, do, begin, end, fun, function, try, mutable, if, then, else},
+	keywordstyle=\color{bluekeywords},
+	sensitive=false,
+	morecomment=[l][\color{greencomments}]{///},
+	morecomment=[l][\color{greencomments}]{//},
+	morecomment=[s][\color{greencomments}]{{(*}{*)}},
+	morestring=[b]",
+	stringstyle=\color{redstrings},
+	tabsize=2, % sets default tabsize to 2 spaces
+	backgroundcolor=\color{lightgray}
+}
 
 \usepackage{amsmath}
+
+\lstset{ %
+  numbers=right,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\small\color{bluekeywords}, % the style that is used for the line-numbers
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  title=\lstname,                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+  showstringspaces=false,
+  breaklines=true,
+  captionpos=b,
+  language=FSharp
+}
+
 
 \setlength\parindent{0pt}
 
