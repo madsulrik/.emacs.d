@@ -34,6 +34,7 @@
 			yasnippet
                         htmlize
                         less-css-mode
+			fill-column-indicator
 			expand-region)
   "Default packages")
 
@@ -251,6 +252,11 @@
     (load-theme 'solarized-dark t)
   (load-theme 'wombat t))
 
+;; 80 column marker
+(require 'fill-column-indicator)
+(define-globalized-minor-mode fci-mode-global fci-mode turn-on-fci-mode)
+;;(fci-mode-global 1)
+
 ;; Cycle through this set of themes
 (setq my-themes '(solarized-dark solarized-light))
 
@@ -269,4 +275,21 @@
 
 ;; Bind this to C-t
 (global-set-key (kbd "C-x t") 'cycle-my-theme)
+
+
+;; Copy whole line
+;; need to be put in own file
+(defun quick-cut-line ()
+  "Cut the whole line that point is on.  Consecutive calls to this command append each line to the kill-ring."
+  (interactive)
+  (let ((beg (line-beginning-position 1))
+	(end (line-beginning-position 2)))
+    (if (eq last-command 'quick-cut-line)
+	(kill-append (buffer-substring beg end) (< end beg))
+      (kill-new (buffer-substring beg end)))
+    (delete-region beg end))
+  (beginning-of-line 1)
+  (setq this-command 'quick-cut-line))
+
+(global-set-key "\C-c\C-k" 'quick-cut-line)
 
