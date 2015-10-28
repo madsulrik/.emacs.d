@@ -19,5 +19,5 @@ My personal emacs settings
 
 
 ## Links
-Nice links to watch
+Nice links to watch.
 [http://emacsrocks.com/]
