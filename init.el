@@ -81,7 +81,9 @@
 (setq mac-right-option-modifier nil)
 
 (pending-delete-mode t)
-
+(global-hl-line-mode t)
+(show-paren-mode t)
+(setq visible-bell 1)
 
 ;; enable ido mode
 (ido-mode t)
@@ -292,4 +294,3 @@
   (setq this-command 'quick-cut-line))
 
 (global-set-key "\C-c\C-k" 'quick-cut-line)
-
