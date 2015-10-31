@@ -21,3 +21,4 @@ My personal emacs settings
 ## Links
 Nice links to watch.
 [http://emacsrocks.com/]
+https://github.com/howardabrams/dot-files/blob/master/emacs-org.org
