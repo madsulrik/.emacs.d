@@ -46,6 +46,15 @@
 ;; python mode
 (require 'python-mode)
 
+;; web mode
+(require 'web-mode)
+
+(add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+(setq web-mode-engines-alist
+  '(("php"    . "\\.phtml\\'")
+    ("blade"  . "\\.blade\\."))
+)
+
 
 ;; yasnippet setup
 (require 'yasnippet)

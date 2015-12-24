@@ -52,6 +52,15 @@
 (setq ido-enable-flex-matching t
       ido-use-virtual-buffers t)
 
+;; kill buffer history
+(add-hook 'kill-buffer-hook
+ (lambda ()
+  (setq buffer-name-history
+        (delete*
+         (buffer-name)
+         buffer-name-history :test 'string=))))
+
+
 ;; line numbers and column numbers
 (require 'linum)
 (global-linum-mode t)

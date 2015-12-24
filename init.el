@@ -30,6 +30,7 @@
 			org-journal
                         marmalade
 			python-mode
+                        web-mode
                         solarized-theme
 			yasnippet
                         htmlize
