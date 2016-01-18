@@ -39,6 +39,7 @@
 
 ;; Turn off bip warnings
 (setq visible-bell 1)
+(setq ring-bell-function 'ignore)
 
 ;; general keybindings
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
