@@ -8,7 +8,7 @@
   (load-theme 'wombat t))
 
 ;; Cycle through this set of themes
-(setq my-themes '(solarized-dark solarized-light))
+(setq my-themes '(solarized-dark sanityinc-tomorrow-night solarized-light))
 
 (setq my-cur-theme nil)
 (defun cycle-my-theme ()

@@ -31,6 +31,7 @@
                         marmalade
 			python-mode
                         web-mode
+                        color-theme-sanityinc-tomorrow
                         solarized-theme
 			yasnippet
                         htmlize
