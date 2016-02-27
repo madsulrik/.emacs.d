@@ -23,6 +23,8 @@
 (setq-default indent-tabs-mode nil)
 (setq tab-width 4)
 
+;; open emacs in fullscreen
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; Fix alt keys on mac
 (setq mac-option-key-is-meta t)
