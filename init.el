@@ -37,7 +37,8 @@
                         htmlize
                         less-css-mode
 			fill-column-indicator
-			expand-region)
+			expand-region
+                        evil)
   "Default packages")
 
 (defun mads/packages-installed-p ()
