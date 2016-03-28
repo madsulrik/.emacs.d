@@ -42,6 +42,10 @@
   (setq-default ispell-program-name "/usr/bin/aspell"))
 (setq-default ispell-list-command "list")
 
+;; slime setup
+(setq inferior-lisp-program "clisp")
+(setq slime-contribs '(slime-fancy))
+
 
 ;; python mode
 (require 'python-mode)

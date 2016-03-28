@@ -29,6 +29,7 @@
                         magit
 			org-journal
                         marmalade
+                        slime
 			python-mode
                         web-mode
                         color-theme-sanityinc-tomorrow
