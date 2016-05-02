@@ -39,7 +39,9 @@
                         less-css-mode
 			fill-column-indicator
 			expand-region
-                        evil)
+                        ido-ubiquitous
+                        evil
+			)
   "Default packages")
 
 (defun mads/packages-installed-p ()
