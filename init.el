@@ -34,6 +34,7 @@
                         web-mode
                         color-theme-sanityinc-tomorrow
                         solarized-theme
+                        spacemacs-theme
 			yasnippet
                         htmlize
                         less-css-mode
