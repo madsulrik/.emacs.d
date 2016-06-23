@@ -23,10 +23,11 @@
 			auctex
 			fill-column-indicator
                         flycheck
-			org
                         gist
                         graphviz-dot-mode
                         magit
+			org
+                        org-bullets
 			org-journal
                         marmalade
                         slime

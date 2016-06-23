@@ -57,6 +57,12 @@
      (latex (format "\href{%s}{%s}"
                     path (or desc "video"))))))
 
+
+;; Org-bullets
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+
+
 ;; org journal stuff
 (defvar org-journal-file "~/Documents/.journal/journal.org"
   "Path to OrgMode journal file.")
