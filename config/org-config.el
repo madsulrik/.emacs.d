@@ -27,8 +27,7 @@
    (python     . t)
    (ruby       . t)
    (dot        . t)
-   (css        . t)
-   (plantuml   . t)))
+   (css        . t)))
 
 (setq org-src-fontify-natively t)
 (setq org-confirm-babel-evaluate nil)
