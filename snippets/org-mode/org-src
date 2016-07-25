@@ -1,0 +1,9 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: Src block for org-mode
+# key: code_ 
+# binding: C-c s
+# --
+
+#+begin_src $1
+  $0
+#+end_src
