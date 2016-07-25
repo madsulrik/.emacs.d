@@ -33,6 +33,7 @@
                         slime
 			python-mode
                         web-mode
+                        js2-mode
                         color-theme-sanityinc-tomorrow
                         solarized-theme
                         spacemacs-theme
