@@ -43,6 +43,7 @@
 			expand-region
                         ido-ubiquitous
                         evil
+                        cc-mode
 			)
   "Default packages")
 

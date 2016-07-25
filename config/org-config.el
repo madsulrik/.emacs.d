@@ -2,6 +2,28 @@
 ;; | ORG MODE SETUP |
 ;; +----------------+
 
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((sh         . t)
+   (js         . t)
+   (emacs-lisp . t)
+   (perl       . t)
+   (scala      . t)
+   (clojure    . t)
+   (python     . t)
+   (ruby       . t)
+   (dot        . t)
+   (css        . t)
+   (C          . t)))
+
+(setq org-src-fontify-natively t)
+(setq org-confirm-babel-evaluate nil)
+(setq org-export-with-section-numbers nil)
+(setq org-html-htmlize-output-type 'css)
+
+(require 'ob-C)
+
 (require 'ox-latex)
 (add-to-list 'org-latex-classes
           '("org-noter"
@@ -15,34 +37,21 @@
               \\usepackage{amsmath}
               \\setlength\\parindent{0pt}"))
 
+;; turn of line-numbers in org mode
+(add-hook 'org-mode-hook (lambda () (linum-mode 0)))
 
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((sh         . t)
-   (js         . t)
-   (emacs-lisp . t)
-   (perl       . t)
-   (scala      . t)
-   (clojure    . t)
-   (python     . t)
-   (ruby       . t)
-   (dot        . t)
-   (css        . t)))
+;; Org-bullets
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
-(setq org-src-fontify-natively t)
-(setq org-confirm-babel-evaluate nil)
-
-(setq org-export-with-section-numbers nil)
 
 ;; youtube tricks for org-mode
 (defvar yt-iframe-format
-  ;; You may want to change your width and height.
   (concat "<iframe width=\"720\""
           " height=\"480\""
           " src=\"https://www.youtube.com/embed/%s\""
           " frameborder=\"0\""
           " allowfullscreen>%s</iframe>"))
-
 (org-add-link-type
  "yt"
  (lambda (handle)
@@ -55,12 +64,6 @@
                    path (or desc "")))
      (latex (format "\href{%s}{%s}"
                     path (or desc "video"))))))
-
-
-;; Org-bullets
-(require 'org-bullets)
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-
 
 ;; org journal stuff
 (defvar org-journal-file "~/Documents/.journal/journal.org"
