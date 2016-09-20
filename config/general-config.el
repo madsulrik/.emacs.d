@@ -142,3 +142,7 @@
     (backup-buffer)))
 
 (add-hook 'before-save-hook  'force-backup-of-buffer)
+
+
+;; Disable vc-git
+(setq vc-handled-backends ())	
