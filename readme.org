@@ -22,3 +22,4 @@ My personal emacs settings
 Nice links to watch.
 http://emacsrocks.com/
 https://github.com/howardabrams/dot-files/blob/master/emacs-org.org
+http://batsov.com/projectile/
