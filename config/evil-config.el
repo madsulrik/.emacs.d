@@ -34,3 +34,16 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (lambda ()
     (interactive)
     (evil-delete (point-at-bol) (point))))
+
+
+;; ctags for evil mode
+
+
+(define-key evil-normal-state-map (kbd "gf")
+  (lambda () (interactive) (find-tag (find-tag-default-as-regexp))))
+
+(define-key evil-normal-state-map (kbd "gb") 'pop-tag-mark)
+
+(define-key evil-normal-state-map (kbd "gn")
+  (lambda () (interactive) (find-tag last-tag t)))
+

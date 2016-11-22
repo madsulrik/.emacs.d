@@ -43,6 +43,8 @@
 			fill-column-indicator
 			expand-region
                         ido-ubiquitous
+                        projectile
+                        flx-ido
                         evil
                         cc-mode
 			)

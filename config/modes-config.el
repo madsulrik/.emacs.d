@@ -76,3 +76,7 @@
 (require 'less-css-mode)
 (add-to-list 'auto-mode-alist '("\\.less$" . less-css-mode))
 
+;; Projectile
+(projectile-global-mode)
+
+;;(add-hook 'cc-mode-hook 'projectile-mode)

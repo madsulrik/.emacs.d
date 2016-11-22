@@ -60,13 +60,16 @@
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;; enable ido mode
-(ido-mode t)
-(setq ido-enable-flex-matching t
-      ido-use-virtual-buffers t)
+;; flx ido setup
+(require 'flx-ido)
+(ido-mode 1)
+(ido-everywhere 1)
+(flx-ido-mode 1)
+;; disable ido faces to see flx highlights.
+(setq ido-enable-flex-matching t)
+(setq ido-use-faces nil)
 
-(setq ido-auto-merge-work-directories-length -1)
 
-(ido-ubiquitous-mode 1)
 
 
 ;; kill buffer history

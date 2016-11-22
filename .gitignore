@@ -16,3 +16,6 @@ ido.last
 *.dat
 *.elc
 .cask
+
+projectile-bookmarks.eld
+projectile.cache
