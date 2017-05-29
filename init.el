@@ -45,7 +45,6 @@
                         ido-ubiquitous
                         projectile
                         flx-ido
-                        evil
                         cc-mode
 			)
   "Default packages")
@@ -70,5 +69,4 @@
 			      (load "~/.emacs.d/config/modes-config.el")
 			      (load "~/.emacs.d/config/org-config.el")
 			      (load "~/.emacs.d/config/colors-config.el")
-			      (load "~/.emacs.d/config/evil-config.el")
                                ))
