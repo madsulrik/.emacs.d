@@ -28,7 +28,7 @@
                         magit
 			org
                         org-bullets
-			org-journal
+			;;org-journal
                         marmalade
                         slime
 			python-mode
