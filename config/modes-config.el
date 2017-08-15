@@ -80,3 +80,7 @@
 (projectile-global-mode)
 
 ;;(add-hook 'cc-mode-hook 'projectile-mode)
+
+;; iy go to char
+
+(global-set-key (kbd "C-c f") 'iy-go-to-char)

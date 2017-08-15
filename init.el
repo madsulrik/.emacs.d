@@ -46,6 +46,7 @@
                         projectile
                         flx-ido
                         cc-mode
+                        iy-go-to-char
 			)
   "Default packages")
 
