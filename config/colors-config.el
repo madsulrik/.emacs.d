@@ -30,7 +30,7 @@
 
 
 ;; 80 column marker
-(require 'fill-column-indicator)
-(define-globalized-minor-mode fci-mode-global fci-mode turn-on-fci-mode)
-(setq-default fill-column 80)
-;;(fci-mode-global 1)
+;; (require 'fill-column-indicator)
+;; (define-globalized-minor-mode fci-mode-global fci-mode turn-on-fci-mode)
+;; (setq-default fill-column 80)
+;; (fci-mode-global 1)
