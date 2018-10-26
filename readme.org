@@ -18,8 +18,21 @@ My personal emacs settings
 | Open journal   | C-c j   |
 
 
+** Haskell specific stuff
+[F8]    => Go to the import section of the file
+C-C C-, => Align the imports nicely
+
+C-c C-l       => 'haskell-process-load-or-reload
+C-c C-z       => 'haskell-interactive-switch
+C-c C-n C-t   => 'haskell-process-do-type
+C-c C-n C-i   => 'haskell-process-do-info
+C-c C-n C-c   => 'haskell-process-cabal-build
+C-c C-n c     => 'haskell-process-cabal
+
 ** Links
 Nice links to watch.
 http://emacsrocks.com/
 https://github.com/howardabrams/dot-files/blob/master/emacs-org.org
 http://batsov.com/projectile/
+
+

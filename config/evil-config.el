@@ -35,6 +35,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (interactive)
     (evil-delete (point-at-bol) (point))))
 
+(define-key evil-normal-state-map (kbd "M-.")
+  `(menu-item "" evil-repeat-pop :filter
+              ,(lambda (cmd) (if (eq last-command 'evil-repeat-pop) cmd))))
+
 
 ;; ctags for evil mode
 
@@ -46,4 +50,5 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 (define-key evil-normal-state-map (kbd "gn")
   (lambda () (interactive) (find-tag last-tag t)))
+
 

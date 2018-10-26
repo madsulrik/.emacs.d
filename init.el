@@ -48,6 +48,7 @@
                         evil
                         cc-mode
                         haskell-mode
+                        ghc
 			)
   "Default packages")
 
