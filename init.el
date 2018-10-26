@@ -28,10 +28,10 @@
                         magit
 			org
                         org-bullets
-			;;org-journal
                         marmalade
                         slime
 			python-mode
+                        enh-ruby-mode
                         web-mode
                         js2-mode
                         color-theme-sanityinc-tomorrow
@@ -46,7 +46,7 @@
                         projectile
                         flx-ido
                         cc-mode
-                        iy-go-to-char
+                        intero
 			)
   "Default packages")
 

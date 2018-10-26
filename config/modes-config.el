@@ -74,6 +74,7 @@
 
 ;; less Mode
 (require 'less-css-mode)
+;;(setq less-css-lessc-options '("-ru"))
 (add-to-list 'auto-mode-alist '("\\.less$" . less-css-mode))
 
 ;; Projectile
@@ -81,6 +82,14 @@
 
 ;;(add-hook 'cc-mode-hook 'projectile-mode)
 
-;; iy go to char
+;;
+;; Ruby mode
+;;
+(add-to-list 'auto-mode-alist
+                          '("\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . enh-ruby-mode))
 
-(global-set-key (kbd "C-c f") 'iy-go-to-char)
+;; -------------
+;; Haskell Mode
+;; -------------
+
+(add-hook 'haskell-mode-hook 'intero-mode)
