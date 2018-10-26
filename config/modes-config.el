@@ -74,9 +74,16 @@
 
 ;; less Mode
 (require 'less-css-mode)
+;;(setq less-css-lessc-options '("-ru"))
 (add-to-list 'auto-mode-alist '("\\.less$" . less-css-mode))
 
 ;; Projectile
 (projectile-global-mode)
 
 ;;(add-hook 'cc-mode-hook 'projectile-mode)
+
+;;
+;; Ruby mode
+;;
+(add-to-list 'auto-mode-alist
+                          '("\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . enh-ruby-mode))
