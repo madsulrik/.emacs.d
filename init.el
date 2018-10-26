@@ -47,8 +47,7 @@
                         flx-ido
                         evil
                         cc-mode
-                        haskell-mode
-                        ghc
+                        intero
 			)
   "Default packages")
 
