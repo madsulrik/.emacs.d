@@ -46,7 +46,10 @@
                         projectile
                         flx-ido
                         cc-mode
+                        edts
                         intero
+                        elm-mode
+                        neotree
 			)
   "Default packages")
 
@@ -70,4 +73,19 @@
 			      (load "~/.emacs.d/config/modes-config.el")
 			      (load "~/.emacs.d/config/org-config.el")
 			      (load "~/.emacs.d/config/colors-config.el")
+                              (load "~/.emacs.d/config/evil-config.el")
                                ))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (elm-mode yasnippet web-mode spacemacs-theme solarized-theme slime robe python-mode projectile org-bullets marmalade magit less-css-mode js2-mode iy-go-to-char intero ido-ubiquitous htmlize graphviz-dot-mode gist ghc fsharp-mode flx-ido fill-column-indicator expand-region evil enh-ruby-mode edts color-theme-sanityinc-tomorrow autopair auctex ac-math))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

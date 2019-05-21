@@ -93,3 +93,15 @@
 ;; -------------
 
 (add-hook 'haskell-mode-hook 'intero-mode)
+
+;; -------------
+;; Elm mode
+;; -------------
+(require 'elm-mode)
+
+;; -------------
+;; Neotree
+;; -------------
+(add-to-list 'load-path "/some/path/neotree")
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
