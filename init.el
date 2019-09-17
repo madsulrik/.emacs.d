@@ -9,8 +9,8 @@
 ;; Initialize Package Mangement
 (load "package")
 (package-initialize)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/"))
+;;(add-to-list 'package-archives
+;;             '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
@@ -50,6 +50,7 @@
                         intero
                         elm-mode
                         neotree
+                        solidity-mode
 			)
   "Default packages")
 
