@@ -1,0 +1,3 @@
+* .emacs.d
+
+The new and improved™ emacs config.
