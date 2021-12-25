@@ -5,11 +5,11 @@
 (setq use-package-always-ensure t)
 
 ;; You will most likely need to adjust this font size for your system!
-(defvar efs/default-font-size 110)
-(defvar efs/default-variable-font-size 160)
+(defvar mus/default-font-size 110)
+(defvar mus/default-variable-font-size 160)
 
 ;; Make frame transparency overridable
-(defvar efs/frame-transparency '(90 . 90))
+(defvar mus/frame-transparency '(90 . 90))
 
 (use-package no-littering)
 
@@ -123,12 +123,12 @@
 (use-package general
   :after evil
   :config
-  (general-create-definer efs/leader-keys
+  (general-create-definer mus/leader-keys
     :keymaps '(normal insert visual emacs)
     :prefix ","
     :global-prefix "C-,")
 
-  (efs/leader-keys
+  (mus/leader-keys
     "t"  '(:ignore t :which-key "toggles")
     "tt" '(counsel-load-theme :which-key "choose theme")
     "ecf" '(lambda () (interactive) (find-file (expand-file-name "~/.emacs.d/config/general.org")))))
@@ -166,14 +166,14 @@
 (when (memq window-system '(mac ns x))
  (exec-path-from-shell-initialize))
 
-(set-face-attribute 'default nil :font "Fira Code" :height efs/default-font-size)
+(set-face-attribute 'default nil :font "Fira Code" :height mus/default-font-size)
 
 ;; Set the fixed pitch face
-(set-face-attribute 'fixed-pitch nil :font "Fira Code" :height efs/default-font-size)
+(set-face-attribute 'fixed-pitch nil :font "Fira Code" :height mus/default-font-size)
 
 ;; Set the variable pitch face
-;; (set-face-attribute 'variable-pitch nil :font "Cantarell" :height efs/default-variable-font-size :weight 'regular)
-(set-face-attribute 'variable-pitch nil :font "ETBembo" :height efs/default-variable-font-size :weight 'thin)
+;; (set-face-attribute 'variable-pitch nil :font "Cantarell" :height mus/default-variable-font-size :weight 'regular)
+(set-face-attribute 'variable-pitch nil :font "ETBembo" :height mus/default-variable-font-size :weight 'thin)
 
 
 (use-package all-the-icons)
@@ -249,7 +249,7 @@
 (use-package s)
 (use-package dash)
 
-(defun efs/org-font-setup ()
+(defun mus/org-font-setup ()
   ;; Replace list hyphen with dot
   (font-lock-add-keywords 'org-mode
                           '(("^ *\\([-]\\) "
@@ -279,7 +279,7 @@
   (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
   (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch))
 
-(defun efs/org-mode-setup ()
+(defun mus/org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)
   (visual-line-mode 1)
@@ -287,26 +287,26 @@
 
 (use-package org
   :pin org
-  :hook (org-mode . efs/org-mode-setup)
+  :hook (org-mode . mus/org-mode-setup)
   :config
   (setq org-ellipsis " ▾")
 
 (setq org-src-tab-acts-natively nil)
 
-  (efs/org-font-setup))
+  (mus/org-font-setup))
 
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode)
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
-(defun efs/org-mode-visual-fill ()
+(defun mus/org-mode-visual-fill ()
   (setq visual-fill-column-width 135
         visual-fill-column-center-text t)
   (visual-fill-column-mode 1))
 
 (use-package visual-fill-column
-  :hook (org-mode . efs/org-mode-visual-fill))
+  :hook (org-mode . mus/org-mode-visual-fill))
 
 (with-eval-after-load 'org
   (org-babel-do-load-languages
@@ -335,7 +335,7 @@
   :hook ((org-mode . evil-org-mode)
          (evil-org-mode . (lambda () (evil-org-set-key-theme '(navigation todo insert textobjects additional))))))
 
-(efs/leader-keys
+(mus/leader-keys
  "o"   '(:ignore t :which-key "org mode")
  "oi"  '(:ignore t :which-key "insert")
  "oil" '(org-insert-link :which-key "insert link")
@@ -375,6 +375,9 @@
   (evil-collection-define-key 'normal 'dired-mode-map
     "H" 'dired-hide-dotfiles-mode))
 
+(use-package magit
+:ensure t)
+
 (use-package perspective
   :demand t
   :bind (("C-M-k" . persp-switch)
@@ -394,10 +397,11 @@
   (setq vterm-shell "zsh")                       ;; Set this to customize the shell to launch
   (setq vterm-max-scrollback 10000))
 
-(defun efs/switch-project-action ()
-  "Switch to a workspace with the project name and start `magit-status'."
+(defun mus/switch-project-action ()
+  "Switch to a workspace with the project name."
   (persp-switch (projectile-project-name))
-                                      ;(magit-status)
+  ;; (projectile-dired)
+  ;; (magit-status)
   )
   (use-package projectile
     :diminish
@@ -408,7 +412,9 @@
     (projectile-enable-caching t)
     :config (projectile-mode)
     :init
-    (setq projectile-switch-project-action #'efs/switch-project-action))
+    (setq projectile-switch-project-action #'mus/switch-project-action)
+    ;; (setq counsel-projectile-switch-project-action #'mus/switch-project-action)
+    )
 
 (use-package ivy
   :diminish
@@ -436,7 +442,7 @@
   (counsel-mode 1)
   :diminish
   :config
-  (efs/leader-keys
+  (mus/leader-keys
     "i" 'counsel-imenu
     "f" 'counsel-find-file
     "s" 'counsel-projectile-rg
@@ -446,7 +452,8 @@
 (use-package counsel-projectile
   :config
   (evil-define-key 'normal global-map (kbd "C-p")     'counsel-projectile)
-  (evil-define-key 'normal global-map (kbd "C-S-p")   'counsel-projectile-switch-project))
+  ;; (evil-define-key 'normal global-map (kbd "C-S-p")   'counsel-projectile-switch-project)
+  (evil-define-key 'normal global-map (kbd "C-S-p")   'projectile-switch-project))
 
 (use-package smex)
 
@@ -539,7 +546,7 @@
 ;  :custom (company-lsp-enable-snippet t)
 ;  :after (company lsp-mode))
 
-(defun efs/lsp-mode-setup ()
+(defun mus/lsp-mode-setup ()
   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
   (lsp-headerline-breadcrumb-mode))
 
@@ -612,11 +619,20 @@
     :init
     (add-hook 'compilation-filter-hook 'inf-ruby-auto-enter)))
 
-
 (use-package rvm
   :diminish
   :config
   (rvm-use-default))
+
+
+(use-package projectile-rails
+  ;; :ensure t
+  :commands (projectile-rails-on)
+  ;; :after projectile
+  :hook ((ruby-mode inf-ruby-mode projectile-rails-server-mode) . projectile-rails-mode)
+  :hook ((projectile-mode) . projectile-rails-on)
+  :config
+  (define-key projectile-rails-mode-map (kbd "C-c r") 'projectile-rails-command-map))
 
 (use-package lispy
   :hook ((emacs-lisp-mode . lispy-mode)

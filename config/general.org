@@ -704,21 +704,29 @@ Dired is a built-in file manager for Emacs that does some pretty amazing things!
         "H" 'dired-hide-dotfiles-mode))
 
 #+end_src
+
 ** IDE features
+*** Git
+
+#+begin_src emacs-lisp
+    (use-package magit
+    :ensure t)
+#+end_src
+
 *** Workspaces
 
 #+begin_src emacs-lisp
-(use-package perspective
-  :demand t
-  :bind (("C-M-k" . persp-switch)
-         ("C-M-n" . persp-next)
-         ("C-x k" . persp-kill-buffer*))
-  :custom
-  (persp-initial-frame-name "Main")
-  :config
-  ;; Running `persp-mode' multiple times resets the perspective list...
-  (unless (equal persp-mode t)
-    (persp-mode)))
+  (use-package perspective
+    :demand t
+    :bind (("C-M-k" . persp-switch)
+           ("C-M-n" . persp-next)
+           ("C-x k" . persp-kill-buffer*))
+    :custom
+    (persp-initial-frame-name "Main")
+    :config
+    ;; Running `persp-mode' multiple times resets the perspective list...
+    (unless (equal persp-mode t)
+      (persp-mode)))
 #+end_src
 
 *** Terminal
@@ -742,21 +750,24 @@ compiled before you can use it successfully.
     Most every nontrivial package provides projectile integration in some form or fashion.
 
     #+begin_src emacs-lisp
-        (defun mus/switch-project-action ()
-          "Switch to a workspace with the project name and start `magit-status'."
-          (persp-switch (projectile-project-name))
-                                              ;(magit-status)
+      (defun mus/switch-project-action ()
+        "Switch to a workspace with the project name."
+        (persp-switch (projectile-project-name))
+        ;; (projectile-dired)
+        ;; (magit-status)
+        )
+        (use-package projectile
+          :diminish
+          ;; :bind (("C-c k" . #'projectile-kill-buffers)
+          ;;       ("C-c M" . #'projectile-compile-project))
+          :custom
+          (projectile-completion-system 'ivy)
+          (projectile-enable-caching t)
+          :config (projectile-mode)
+          :init
+          (setq projectile-switch-project-action #'mus/switch-project-action)
+          ;; (setq counsel-projectile-switch-project-action #'mus/switch-project-action)
           )
-          (use-package projectile
-            :diminish
-            ;; :bind (("C-c k" . #'projectile-kill-buffers)
-            ;;       ("C-c M" . #'projectile-compile-project))
-            :custom
-            (projectile-completion-system 'ivy)
-            (projectile-enable-caching t)
-            :config (projectile-mode)
-            :init
-            (setq projectile-switch-project-action #'mus/switch-project-action))
     #+end_src
 
 *** Ivy, counsel, and swiper
@@ -801,7 +812,8 @@ compiled before you can use it successfully.
       (use-package counsel-projectile
         :config
         (evil-define-key 'normal global-map (kbd "C-p")     'counsel-projectile)
-        (evil-define-key 'normal global-map (kbd "C-S-p")   'counsel-projectile-switch-project))
+        ;; (evil-define-key 'normal global-map (kbd "C-S-p")   'counsel-projectile-switch-project)
+        (evil-define-key 'normal global-map (kbd "C-S-p")   'projectile-switch-project))
 
       (use-package smex)
     #+end_src
@@ -834,6 +846,7 @@ compiled before you can use it successfully.
     #+end_src
 
 ***  Flyspell
+
 #+begin_src emacs-lisp
     (use-package flyspell
       :ensure t
@@ -858,6 +871,7 @@ compiled before you can use it successfully.
               flyspell-lazy-window-idle-seconds 3)
         (flyspell-lazy-mode 1)))
 #+end_src
+
 *** Searching
     deadgrep is the bee’s knees for project-wide search, as it uses ripgrep.
     #+begin_src emacs-lisp
@@ -1048,14 +1062,21 @@ Try these commands with =M-x=:
       :init
       (add-hook 'compilation-filter-hook 'inf-ruby-auto-enter)))
 
-
   (use-package rvm
     :diminish
     :config
     (rvm-use-default))
 
-#+end_src
 
+  (use-package projectile-rails
+    ;; :ensure t
+    :commands (projectile-rails-on)
+    ;; :after projectile
+    :hook ((ruby-mode inf-ruby-mode projectile-rails-server-mode) . projectile-rails-mode)
+    :hook ((projectile-mode) . projectile-rails-on)
+    :config
+    (define-key projectile-rails-mode-map (kbd "C-c r") 'projectile-rails-command-map))
+#+end_src
 
 *** Meta lisp
 Here are packages that are useful across different Lisp and Scheme implementations:
