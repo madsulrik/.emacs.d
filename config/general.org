@@ -35,11 +35,11 @@
 
    #+begin_src emacs-lisp
      ;; You will most likely need to adjust this font size for your system!
-     (defvar efs/default-font-size 110)
-     (defvar efs/default-variable-font-size 160)
+     (defvar mus/default-font-size 110)
+     (defvar mus/default-variable-font-size 160)
 
      ;; Make frame transparency overridable
-     (defvar efs/frame-transparency '(90 . 90))
+     (defvar mus/frame-transparency '(90 . 90))
    #+end_src
 
 *** keeping folders clean
@@ -243,12 +243,12 @@ evil-mode.
   (use-package general
     :after evil
     :config
-    (general-create-definer efs/leader-keys
+    (general-create-definer mus/leader-keys
       :keymaps '(normal insert visual emacs)
       :prefix ","
       :global-prefix "C-,")
 
-    (efs/leader-keys
+    (mus/leader-keys
       "t"  '(:ignore t :which-key "toggles")
       "tt" '(counsel-load-theme :which-key "choose theme")
       "ecf" '(lambda () (interactive) (find-file (expand-file-name "~/.emacs.d/config/general.org")))))
@@ -288,10 +288,10 @@ There is some path issues when using Mac OSX. The following fixes the issues
 
 #+begin_src emacs-lisp
 
-(use-package exec-path-from-shell)
+  (use-package exec-path-from-shell)
 
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
+  (when (memq window-system '(mac ns x))
+   (exec-path-from-shell-initialize))
 
 #+end_src
 
@@ -300,14 +300,14 @@ There is some path issues when using Mac OSX. The following fixes the issues
 
    #+begin_src emacs-lisp
 
-     (set-face-attribute 'default nil :font "Fira Code" :height efs/default-font-size)
+     (set-face-attribute 'default nil :font "Fira Code" :height mus/default-font-size)
 
      ;; Set the fixed pitch face
-     (set-face-attribute 'fixed-pitch nil :font "Fira Code" :height efs/default-font-size)
+     (set-face-attribute 'fixed-pitch nil :font "Fira Code" :height mus/default-font-size)
 
      ;; Set the variable pitch face
-     ;; (set-face-attribute 'variable-pitch nil :font "Cantarell" :height efs/default-variable-font-size :weight 'regular)
-     (set-face-attribute 'variable-pitch nil :font "ETBembo" :height efs/default-variable-font-size :weight 'thin)
+     ;; (set-face-attribute 'variable-pitch nil :font "Cantarell" :height mus/default-variable-font-size :weight 'regular)
+     (set-face-attribute 'variable-pitch nil :font "ETBembo" :height mus/default-variable-font-size :weight 'thin)
 
 
      (use-package all-the-icons)
@@ -462,12 +462,12 @@ in the mode of your current buffer.
    is one of the hallmark features of Emacs. It is a rich document editor, project planner, task and time tracker, blogging engine, and
    literate coding utility all wrapped up in one package.
 *** Better Font Faces
-   The =efs/org-font-setup= function configures various text faces to tweak the sizes of headings and use variable width fonts in most
+   The =mus/org-font-setup= function configures various text faces to tweak the sizes of headings and use variable width fonts in most
    cases so that it looks more like we're editing a document in =org-mode=. We switch back to fixed width (monospace) fonts for code
    blocks and tables so that they display correctly.
 
    #+begin_src emacs-lisp
-     (defun efs/org-font-setup ()
+     (defun mus/org-font-setup ()
        ;; Replace list hyphen with dot
        (font-lock-add-keywords 'org-mode
                                '(("^ *\\([-]\\) "
@@ -503,7 +503,7 @@ in the mode of your current buffer.
     a lot to unpack in here so I'd recommend watching the videos for [[https://youtu.be/VcgjTEa0kU4][Part 5]] and [[https://youtu.be/PNE-mgkZ6HM][Part 6]] for a full explanation.
 
     #+begin_src emacs-lisp
-      (defun efs/org-mode-setup ()
+      (defun mus/org-mode-setup ()
         (org-indent-mode)
         (variable-pitch-mode 1)
         (visual-line-mode 1)
@@ -511,13 +511,13 @@ in the mode of your current buffer.
 
       (use-package org
         :pin org
-        :hook (org-mode . efs/org-mode-setup)
+        :hook (org-mode . mus/org-mode-setup)
         :config
         (setq org-ellipsis " ▾")
 
       (setq org-src-tab-acts-natively nil)
 
-        (efs/org-font-setup))
+        (mus/org-font-setup))
     #+end_src
 
 *** Nicer Heading Bullets
@@ -538,13 +538,13 @@ in the mode of your current buffer.
     the block below if you don't like the behavior.
 
     #+begin_src emacs-lisp
-      (defun efs/org-mode-visual-fill ()
+      (defun mus/org-mode-visual-fill ()
         (setq visual-fill-column-width 135
               visual-fill-column-center-text t)
         (visual-fill-column-mode 1))
 
       (use-package visual-fill-column
-        :hook (org-mode . efs/org-mode-visual-fill))
+        :hook (org-mode . mus/org-mode-visual-fill))
     #+end_src
 
 *** Configure Babel Languages
@@ -599,7 +599,7 @@ in the mode of your current buffer.
       :hook ((org-mode . evil-org-mode)
              (evil-org-mode . (lambda () (evil-org-set-key-theme '(navigation todo insert textobjects additional))))))
 
-    (efs/leader-keys
+    (mus/leader-keys
      "o"   '(:ignore t :which-key "org mode")
      "oi"  '(:ignore t :which-key "insert")
      "oil" '(org-insert-link :which-key "insert link")
@@ -674,13 +674,14 @@ Dired is a built-in file manager for Emacs that does some pretty amazing things!
       :commands (dired dired-jump)
       :bind (("C-x C-j" . dired-jump))
       :custom (
-      ( insert-directory-program "gls" dired-use-ls-dired t)
-  ;; (dired-listing-switches "-al --group-directories-first")
-      (dired-listing-switches "-agho --group-directories-first"))
-      :config
-      (evil-collection-define-key 'normal 'dired-mode-map
-        "h" 'dired-single-up-directory
-        "l" 'dired-single-buffer))
+               (if (eq system-type 'darwin)
+                   (insert-directory-program "gls" dired-use-ls-dired t))
+                 ;; (dired-listing-switches "-al --group-directories-first")
+                 (dired-listing-switches "-agho --group-directories-first"))
+               :config
+               (evil-collection-define-key 'normal 'dired-mode-map
+                 "h" 'dired-single-up-directory
+                 "l" 'dired-single-buffer))
 
     (use-package dired-single
       :commands (dired dired-jump))
@@ -704,6 +705,22 @@ Dired is a built-in file manager for Emacs that does some pretty amazing things!
 
 #+end_src
 ** IDE features
+*** Workspaces
+
+#+begin_src emacs-lisp
+(use-package perspective
+  :demand t
+  :bind (("C-M-k" . persp-switch)
+         ("C-M-n" . persp-next)
+         ("C-x k" . persp-kill-buffer*))
+  :custom
+  (persp-initial-frame-name "Main")
+  :config
+  ;; Running `persp-mode' multiple times resets the perspective list...
+  (unless (equal persp-mode t)
+    (persp-mode)))
+#+end_src
+
 *** Terminal
 **** Vterm
 vterm is an improved terminal emulator package which uses a compiled native module to interact with the underlying terminal
@@ -725,14 +742,21 @@ compiled before you can use it successfully.
     Most every nontrivial package provides projectile integration in some form or fashion.
 
     #+begin_src emacs-lisp
-      (use-package projectile
-        :diminish
-        ;; :bind (("C-c k" . #'projectile-kill-buffers)
-        ;;       ("C-c M" . #'projectile-compile-project))
-        :custom
-        (projectile-completion-system 'ivy)
-        (projectile-enable-caching t)
-        :config (projectile-mode))
+        (defun mus/switch-project-action ()
+          "Switch to a workspace with the project name and start `magit-status'."
+          (persp-switch (projectile-project-name))
+                                              ;(magit-status)
+          )
+          (use-package projectile
+            :diminish
+            ;; :bind (("C-c k" . #'projectile-kill-buffers)
+            ;;       ("C-c M" . #'projectile-compile-project))
+            :custom
+            (projectile-completion-system 'ivy)
+            (projectile-enable-caching t)
+            :config (projectile-mode)
+            :init
+            (setq projectile-switch-project-action #'mus/switch-project-action))
     #+end_src
 
 *** Ivy, counsel, and swiper
@@ -745,7 +769,7 @@ compiled before you can use it successfully.
         :diminish
         :custom
         (ivy-height 30)
-        (ivy-use-virtual-buffers t)
+        (ivy-use-virtual-buffers nil)
         (ivy-use-selectable-prompt t)
         :config
         (ivy-mode 1)
@@ -767,12 +791,12 @@ compiled before you can use it successfully.
         (counsel-mode 1)
         :diminish
         :config
-        (efs/leader-keys
+        (mus/leader-keys
           "i" 'counsel-imenu
           "f" 'counsel-find-file
           "s" 'counsel-projectile-rg
           "x" 'counsel-M-x
-          "b" 'counsel-switch-buffer))
+          "b" 'persp-counsel-switch-buffer))
 
       (use-package counsel-projectile
         :config
@@ -908,7 +932,7 @@ The =which-key= integration adds helpful descriptions of the various keys so you
 in a =lsp-mode= buffer and trying different things that you find there.
 
 #+begin_src emacs-lisp
-  (defun efs/lsp-mode-setup ()
+  (defun mus/lsp-mode-setup ()
     (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
     (lsp-headerline-breadcrumb-mode))
 

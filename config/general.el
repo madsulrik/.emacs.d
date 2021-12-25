@@ -164,7 +164,7 @@
 (use-package exec-path-from-shell)
 
 (when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
+ (exec-path-from-shell-initialize))
 
 (set-face-attribute 'default nil :font "Fira Code" :height efs/default-font-size)
 
@@ -342,37 +342,50 @@
  "on"  '(org-toggle-narrow-to-subtree :which-key "toggle narrow"))
 
 (use-package dired
-    :ensure nil
-    :commands (dired dired-jump)
-    :bind (("C-x C-j" . dired-jump))
-    :custom (
-    ( insert-directory-program "gls" dired-use-ls-dired t)
-;; (dired-listing-switches "-al --group-directories-first")
-    (dired-listing-switches "-agho --group-directories-first"))
-    :config
-    (evil-collection-define-key 'normal 'dired-mode-map
-      "h" 'dired-single-up-directory
-      "l" 'dired-single-buffer))
+  :ensure nil
+  :commands (dired dired-jump)
+  :bind (("C-x C-j" . dired-jump))
+  :custom (
+           (if (eq system-type 'darwin)
+               (insert-directory-program "gls" dired-use-ls-dired t))
+             ;; (dired-listing-switches "-al --group-directories-first")
+             (dired-listing-switches "-agho --group-directories-first"))
+           :config
+           (evil-collection-define-key 'normal 'dired-mode-map
+             "h" 'dired-single-up-directory
+             "l" 'dired-single-buffer))
 
-  (use-package dired-single
-    :commands (dired dired-jump))
+(use-package dired-single
+  :commands (dired dired-jump))
 
-  ;; (use-package all-the-icons-dired
-  ;;   :hook (dired-mode . all-the-icons-dired-mode))
+;; (use-package all-the-icons-dired
+;;   :hook (dired-mode . all-the-icons-dired-mode))
 
-  ;; (use-package dired-open
-  ;;   :commands (dired dired-jump)
-  ;;   :config
-  ;;   ;; Doesn't work as expected!
-  ;;   ;;(add-to-list 'dired-open-functions #'dired-open-xdg t)
-  ;;   (setq dired-open-extensions '(("png" . "feh")
-  ;;                                 ("mkv" . "mpv"))))
+;; (use-package dired-open
+;;   :commands (dired dired-jump)
+;;   :config
+;;   ;; Doesn't work as expected!
+;;   ;;(add-to-list 'dired-open-functions #'dired-open-xdg t)
+;;   (setq dired-open-extensions '(("png" . "feh")
+;;                                 ("mkv" . "mpv"))))
 
-  (use-package dired-hide-dotfiles
-    :hook (dired-mode . dired-hide-dotfiles-mode)
-    :config
-    (evil-collection-define-key 'normal 'dired-mode-map
-      "H" 'dired-hide-dotfiles-mode))
+(use-package dired-hide-dotfiles
+  :hook (dired-mode . dired-hide-dotfiles-mode)
+  :config
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "H" 'dired-hide-dotfiles-mode))
+
+(use-package perspective
+  :demand t
+  :bind (("C-M-k" . persp-switch)
+         ("C-M-n" . persp-next)
+         ("C-x k" . persp-kill-buffer*))
+  :custom
+  (persp-initial-frame-name "Main")
+  :config
+  ;; Running `persp-mode' multiple times resets the perspective list...
+  (unless (equal persp-mode t)
+    (persp-mode)))
 
 (use-package vterm
   :commands vterm
@@ -381,20 +394,27 @@
   (setq vterm-shell "zsh")                       ;; Set this to customize the shell to launch
   (setq vterm-max-scrollback 10000))
 
-(use-package projectile
-  :diminish
-  ;; :bind (("C-c k" . #'projectile-kill-buffers)
-  ;;       ("C-c M" . #'projectile-compile-project))
-  :custom
-  (projectile-completion-system 'ivy)
-  (projectile-enable-caching t)
-  :config (projectile-mode))
+(defun efs/switch-project-action ()
+  "Switch to a workspace with the project name and start `magit-status'."
+  (persp-switch (projectile-project-name))
+                                      ;(magit-status)
+  )
+  (use-package projectile
+    :diminish
+    ;; :bind (("C-c k" . #'projectile-kill-buffers)
+    ;;       ("C-c M" . #'projectile-compile-project))
+    :custom
+    (projectile-completion-system 'ivy)
+    (projectile-enable-caching t)
+    :config (projectile-mode)
+    :init
+    (setq projectile-switch-project-action #'efs/switch-project-action))
 
 (use-package ivy
   :diminish
   :custom
   (ivy-height 30)
-  (ivy-use-virtual-buffers t)
+  (ivy-use-virtual-buffers nil)
   (ivy-use-selectable-prompt t)
   :config
   (ivy-mode 1)
@@ -421,7 +441,7 @@
     "f" 'counsel-find-file
     "s" 'counsel-projectile-rg
     "x" 'counsel-M-x
-    "b" 'counsel-switch-buffer))
+    "b" 'persp-counsel-switch-buffer))
 
 (use-package counsel-projectile
   :config
