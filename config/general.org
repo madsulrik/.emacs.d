@@ -462,9 +462,9 @@ in the mode of your current buffer.
    is one of the hallmark features of Emacs. It is a rich document editor, project planner, task and time tracker, blogging engine, and
    literate coding utility all wrapped up in one package.
 *** Better Font Faces
-   The =mus/org-font-setup= function configures various text faces to tweak the sizes of headings and use variable width fonts in most
-   cases so that it looks more like we're editing a document in =org-mode=. We switch back to fixed width (monospace) fonts for code
-   blocks and tables so that they display correctly.
+    The =mus/org-font-setup= function configures various text faces to tweak the sizes of headings and use variable width fonts in most
+    cases so that it looks more like we're editing a document in =org-mode=. We switch back to fixed width (monospace) fonts for code
+    blocks and tables so that they display correctly.
 
    #+begin_src emacs-lisp
      (defun mus/org-font-setup ()
@@ -499,15 +499,14 @@ in the mode of your current buffer.
    #+end_src
 
 *** basic configuration
-    This section contains the basic configuration for =org-mode= plus the configuration for Org agendas and capture templates. There's
-    a lot to unpack in here so I'd recommend watching the videos for [[https://youtu.be/VcgjTEa0kU4][Part 5]] and [[https://youtu.be/PNE-mgkZ6HM][Part 6]] for a full explanation.
+    This section contains the basic configuration for =org-mode= plus the configuration for Org agendas and capture templates. There's a
+    lot to unpack in here so I'd recommend watching the videos for [[https://youtu.be/VcgjTEa0kU4][Part 5]] and [[https://youtu.be/PNE-mgkZ6HM][Part 6]] for a full explanation.
 
     #+begin_src emacs-lisp
       (defun mus/org-mode-setup ()
         (org-indent-mode)
         (variable-pitch-mode 1)
-        (visual-line-mode 1)
-        )
+        (visual-line-mode 1))
 
       (use-package org
         :pin org
@@ -516,7 +515,6 @@ in the mode of your current buffer.
         (setq org-ellipsis " ▾")
 
       (setq org-src-tab-acts-natively nil)
-
         (mus/org-font-setup))
     #+end_src
 
@@ -608,7 +606,7 @@ in the mode of your current buffer.
 
 ** File Management
 *** Dired
-Dired is a built-in file manager for Emacs that does some pretty amazing things!  Here are some key bindings you should try out:
+    Dired is a built-in file manager for Emacs that does some pretty amazing things!  Here are some key bindings you should try out:
 **** Key Bindings
 ***** Navigation
 *Emacs* / *Evil*
@@ -709,8 +707,15 @@ Dired is a built-in file manager for Emacs that does some pretty amazing things!
 *** Git
 
 #+begin_src emacs-lisp
-    (use-package magit
-    :ensure t)
+  (use-package magit
+    :ensure t
+    :bind ("C-M-;" . magit-status)
+    :commands (magit-status magit-get-current-branch)
+    :custom
+    (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+
+  (use-package magit-todos
+    :defer t)
 #+end_src
 
 *** Workspaces
@@ -731,11 +736,11 @@ Dired is a built-in file manager for Emacs that does some pretty amazing things!
 
 *** Terminal
 **** Vterm
-vterm is an improved terminal emulator package which uses a compiled native module to interact with the underlying terminal
-applications. This enables it to be much faster than term-mode and to also provide a more complete terminal emulation experience.
+     is an improved terminal emulator package which uses a compiled native module to interact with the underlying terminal
+     applications. This enables it to be much faster than term-mode and to also provide a more complete terminal emulation experience.
 
-Make sure that you have the necessary dependencies installed before trying to use vterm because there is a module that will need to be
-compiled before you can use it successfully.
+     Make sure that you have the necessary dependencies installed before trying to use vterm because there is a module that will need to be
+     compiled before you can use it successfully.
 
 #+begin_src emacs-lisp
   (use-package vterm

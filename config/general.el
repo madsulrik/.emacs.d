@@ -282,8 +282,7 @@
 (defun mus/org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)
-  (visual-line-mode 1)
-  )
+  (visual-line-mode 1))
 
 (use-package org
   :pin org
@@ -292,7 +291,6 @@
   (setq org-ellipsis " ▾")
 
 (setq org-src-tab-acts-natively nil)
-
   (mus/org-font-setup))
 
 (use-package org-bullets
@@ -376,7 +374,14 @@
     "H" 'dired-hide-dotfiles-mode))
 
 (use-package magit
-:ensure t)
+  :ensure t
+  :bind ("C-M-;" . magit-status)
+  :commands (magit-status magit-get-current-branch)
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+
+(use-package magit-todos
+  :defer t)
 
 (use-package perspective
   :demand t
