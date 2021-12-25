@@ -4,7 +4,7 @@
   - [[https://github.com/patrickt/emacs/blob/master/readme.org][Patrick Thomson's emacs config]]
   - [[https://github.com/daviwil/emacs-from-scratch/blob/master/Emacs.org][Emacs from scratch]]
 
-** preliminaries
+** Preliminaries
 
    I'll say it: modern Emacs Lisp is unfairly maligned. However, it was pretty fairly maligned before Emacs 24, which introduced
    lexical scoping. For reasons of compatibility, it's not on by default, and the documentation states that "unlike other file-local
@@ -283,15 +283,27 @@ evil-mode.
 
 #+end_src
 
+** OSX fix
+There is some path issues when using Mac OSX. The following fixes the issues
+
+#+begin_src emacs-lisp
+
+(use-package exec-path-from-shell)
+
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+
+#+end_src
+
 ** Visual
    I am using the [[https://github.com/tonsky/FiraCode][Fira Code]] and [[https://fonts.google.com/specimen/Cantarell][Cantarell]] fonts for this configuration which will more than likely need to be installed on your machine.  Both can usually be found in the various Linux distro package managers or downloaded from the links above.
 
    #+begin_src emacs-lisp
 
-     (set-face-attribute 'default nil :font "Fira Code Retina" :height efs/default-font-size)
+     (set-face-attribute 'default nil :font "Fira Code" :height efs/default-font-size)
 
      ;; Set the fixed pitch face
-     (set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height efs/default-font-size)
+     (set-face-attribute 'fixed-pitch nil :font "Fira Code" :height efs/default-font-size)
 
      ;; Set the variable pitch face
      ;; (set-face-attribute 'variable-pitch nil :font "Cantarell" :height efs/default-variable-font-size :weight 'regular)
@@ -470,7 +482,7 @@ in the mode of your current buffer.
                        (org-level-6 . 1.1)
                        (org-level-7 . 1.1)
                        (org-level-8 . 1.1)))
-         (set-face-attribute (car face) nil :font "Cantarell" :weight 'bold :height (cdr face)))
+         (set-face-attribute (car face) nil :font "ETBembo" :weight 'bold :height (cdr face)))
 
        ;; Ensure that anything that should be fixed-pitch in Org files appears that way
        (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
@@ -573,11 +585,11 @@ in the mode of your current buffer.
     quickfix for a =evil-redirect-digit-argument= error. See [[https://github.com/Somelauw/evil-org-mode/issues/93#issuecomment-950306532][github issue]].
 
     #+begin_src emacs-lisp
-      (fset 'evil-redirect-digit-argument 'ignore)
+      ;; (fset 'evil-redirect-digit-argument 'ignore)
 
-      (add-to-list 'evil-digit-bound-motions 'evil-org-beginning-of-line)
-      (evil-define-key 'motion 'evil-org-mode
-        (kbd "0") 'evil-org-beginning-of-line)
+      ;; (add-to-list 'evil-digit-bound-motions 'evil-org-beginning-of-line)
+      ;; (evil-define-key 'motion 'evil-org-mode
+      ;;   (kbd "0") 'evil-org-beginning-of-line)
     #+end_src
 
 
@@ -594,7 +606,121 @@ in the mode of your current buffer.
      "on"  '(org-toggle-narrow-to-subtree :which-key "toggle narrow"))
   #+end_src
 
+** File Management
+*** Dired
+Dired is a built-in file manager for Emacs that does some pretty amazing things!  Here are some key bindings you should try out:
+**** Key Bindings
+***** Navigation
+*Emacs* / *Evil*
+- =n= / =j= - next line
+- =p= / =k= - previous line
+- =j= / =J= - jump to file in buffer
+- =RET= - select file or directory
+- =^= - go to parent directory
+- =S-RET= / =g O= - Open file in "other" window
+- =M-RET= - Show file in other window without focusing (previewing files)
+- =g o= (=dired-view-file=) - Open file but in a "preview" mode, close with =q=
+- =g= / =g r= Refresh the buffer with =revert-buffer= after changing configuration (and after filesystem changes!)
+
+***** Marking files
+
+- =m= - Marks a file
+- =u= - Unmarks a file
+- =U= - Unmarks all files in buffer
+- =* t= / =t= - Inverts marked files in buffer
+- =% m= - Mark files in buffer using regular expression
+- =*= - Lots of other auto-marking functions
+- =k= / =K= - "Kill" marked items (refresh buffer with =g= / =g r= to get them back)
+- Many operations can be done on a single file if there are no active marks!
+
+***** Copying and Renaming files
+
+- =C= - Copy marked files (or if no files are marked, the current file)
+- Copying single and multiple files
+- =U= - Unmark all files in buffer
+- =R= - Rename marked files, renaming multiple is a move!
+- =% R= - Rename based on regular expression: =^test= , =old-\&=
+
+*Power command*: =C-x C-q= (=dired-toggle-read-only=) - Makes all file names in the buffer editable directly to rename them!  Press =Z Z= to confirm renaming or =Z Q= to abort.
+
+***** Deleting files
+
+- =D= - Delete marked file
+- =d= - Mark file for deletion
+- =x= - Execute deletion for marks
+- =delete-by-moving-to-trash= - Move to trash instead of deleting permanently
+
+***** Creating and extracting archives
+
+- =Z= - Compress or uncompress a file or folder to (=.tar.gz=)
+- =c= - Compress selection to a specific file
+- =dired-compress-files-alist= - Bind compression commands to file extension
+
+***** Other common operations
+
+- =T= - Touch (change timestamp)
+- =M= - Change file mode
+- =O= - Change file owner
+- =G= - Change file group
+- =S= - Create a symbolic link to this file
+- =L= - Load an Emacs Lisp file into Emacs
+
+**** Configuration
+
+#+begin_src emacs-lisp
+
+    (use-package dired
+      :ensure nil
+      :commands (dired dired-jump)
+      :bind (("C-x C-j" . dired-jump))
+      :custom (
+      ( insert-directory-program "gls" dired-use-ls-dired t)
+  ;; (dired-listing-switches "-al --group-directories-first")
+      (dired-listing-switches "-agho --group-directories-first"))
+      :config
+      (evil-collection-define-key 'normal 'dired-mode-map
+        "h" 'dired-single-up-directory
+        "l" 'dired-single-buffer))
+
+    (use-package dired-single
+      :commands (dired dired-jump))
+
+    ;; (use-package all-the-icons-dired
+    ;;   :hook (dired-mode . all-the-icons-dired-mode))
+
+    ;; (use-package dired-open
+    ;;   :commands (dired dired-jump)
+    ;;   :config
+    ;;   ;; Doesn't work as expected!
+    ;;   ;;(add-to-list 'dired-open-functions #'dired-open-xdg t)
+    ;;   (setq dired-open-extensions '(("png" . "feh")
+    ;;                                 ("mkv" . "mpv"))))
+
+    (use-package dired-hide-dotfiles
+      :hook (dired-mode . dired-hide-dotfiles-mode)
+      :config
+      (evil-collection-define-key 'normal 'dired-mode-map
+        "H" 'dired-hide-dotfiles-mode))
+
+#+end_src
 ** IDE features
+*** Terminal
+**** Vterm
+vterm is an improved terminal emulator package which uses a compiled native module to interact with the underlying terminal
+applications. This enables it to be much faster than term-mode and to also provide a more complete terminal emulation experience.
+
+Make sure that you have the necessary dependencies installed before trying to use vterm because there is a module that will need to be
+compiled before you can use it successfully.
+
+#+begin_src emacs-lisp
+  (use-package vterm
+    :commands vterm
+    :config
+    ;;(setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *")  ;; Set this to match your custom shell prompt
+    (setq vterm-shell "zsh")                       ;; Set this to customize the shell to launch
+    (setq vterm-max-scrollback 10000))
+#+end_src
+
 *** Projectile
     Most every nontrivial package provides projectile integration in some form or fashion.
 
@@ -905,7 +1031,6 @@ Try these commands with =M-x=:
     (rvm-use-default))
 
 #+end_src
-
 
 
 *** Meta lisp

@@ -161,10 +161,15 @@
   :config
   (evil-commentary-mode))
 
-(set-face-attribute 'default nil :font "Fira Code Retina" :height efs/default-font-size)
+(use-package exec-path-from-shell)
+
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+
+(set-face-attribute 'default nil :font "Fira Code" :height efs/default-font-size)
 
 ;; Set the fixed pitch face
-(set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height efs/default-font-size)
+(set-face-attribute 'fixed-pitch nil :font "Fira Code" :height efs/default-font-size)
 
 ;; Set the variable pitch face
 ;; (set-face-attribute 'variable-pitch nil :font "Cantarell" :height efs/default-variable-font-size :weight 'regular)
@@ -259,7 +264,7 @@
                   (org-level-6 . 1.1)
                   (org-level-7 . 1.1)
                   (org-level-8 . 1.1)))
-    (set-face-attribute (car face) nil :font "Cantarell" :weight 'bold :height (cdr face)))
+    (set-face-attribute (car face) nil :font "ETBembo" :weight 'bold :height (cdr face)))
 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
   (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
@@ -319,11 +324,11 @@
   (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
   (add-to-list 'org-structure-template-alist '("py" . "src python")))
 
-(fset 'evil-redirect-digit-argument 'ignore)
+;; (fset 'evil-redirect-digit-argument 'ignore)
 
-(add-to-list 'evil-digit-bound-motions 'evil-org-beginning-of-line)
-(evil-define-key 'motion 'evil-org-mode
-  (kbd "0") 'evil-org-beginning-of-line)
+;; (add-to-list 'evil-digit-bound-motions 'evil-org-beginning-of-line)
+;; (evil-define-key 'motion 'evil-org-mode
+;;   (kbd "0") 'evil-org-beginning-of-line)
 
 (use-package evil-org
   :after org
@@ -335,6 +340,46 @@
  "oi"  '(:ignore t :which-key "insert")
  "oil" '(org-insert-link :which-key "insert link")
  "on"  '(org-toggle-narrow-to-subtree :which-key "toggle narrow"))
+
+(use-package dired
+    :ensure nil
+    :commands (dired dired-jump)
+    :bind (("C-x C-j" . dired-jump))
+    :custom (
+    ( insert-directory-program "gls" dired-use-ls-dired t)
+;; (dired-listing-switches "-al --group-directories-first")
+    (dired-listing-switches "-agho --group-directories-first"))
+    :config
+    (evil-collection-define-key 'normal 'dired-mode-map
+      "h" 'dired-single-up-directory
+      "l" 'dired-single-buffer))
+
+  (use-package dired-single
+    :commands (dired dired-jump))
+
+  ;; (use-package all-the-icons-dired
+  ;;   :hook (dired-mode . all-the-icons-dired-mode))
+
+  ;; (use-package dired-open
+  ;;   :commands (dired dired-jump)
+  ;;   :config
+  ;;   ;; Doesn't work as expected!
+  ;;   ;;(add-to-list 'dired-open-functions #'dired-open-xdg t)
+  ;;   (setq dired-open-extensions '(("png" . "feh")
+  ;;                                 ("mkv" . "mpv"))))
+
+  (use-package dired-hide-dotfiles
+    :hook (dired-mode . dired-hide-dotfiles-mode)
+    :config
+    (evil-collection-define-key 'normal 'dired-mode-map
+      "H" 'dired-hide-dotfiles-mode))
+
+(use-package vterm
+  :commands vterm
+  :config
+  ;;(setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *")  ;; Set this to match your custom shell prompt
+  (setq vterm-shell "zsh")                       ;; Set this to customize the shell to launch
+  (setq vterm-max-scrollback 10000))
 
 (use-package projectile
   :diminish
