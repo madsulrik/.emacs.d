@@ -138,7 +138,7 @@
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
   (setq evil-want-C-u-scroll t)
-  (setq evil-want-C-i-jump nil)
+  (setq evil-want-C-i-jump t)
   :config
   (evil-mode 1)
   (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
@@ -163,20 +163,18 @@
 
 (use-package exec-path-from-shell)
 
-    (when (memq window-system '(mac ns x))
-      (exec-path-from-shell-initialize))
-
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
 
 (setq mac-option-modifier nil)
 (setq mac-command-modifier 'meta)
 
-
-   (when (string= system-type "darwin")
-     (setq dired-use-ls-dired t
-           insert-directory-program "/opt/homebrew/bin/gls"
-           dired-listing-switches "-aBhl --group-directories-first"))
-   ;; (when (equal system-type 'darwin)
-   ;;  (setq insert-directory-program "/opt/homebrew/bin/gls"))
+(when (string= system-type "darwin")
+  (setq dired-use-ls-dired t
+        insert-directory-program "/opt/homebrew/bin/gls"
+        dired-listing-switches "-aBhl --group-directories-first"))
+;; (when (equal system-type 'darwin)
+;;  (setq insert-directory-program "/opt/homebrew/bin/gls"))
 
 (set-face-attribute 'default nil :font "Fira Code" :height mus/default-font-size)
 
@@ -620,12 +618,12 @@
   :config
   (rvm-use-default))
 
-  (use-package web-mode
-    :mode (".html?$" ".erb$")
-    :config
-    (setq-default web-mode-code-indent-offset 2)
-    (setq-default web-mode-markup-indent-offset 2)
-    (setq-default web-mode-attribute-indent-offset 2))
+(use-package web-mode
+  :mode (".html?$" ".erb$")
+  :config
+  (setq-default web-mode-code-indent-offset 2)
+  (setq-default web-mode-markup-indent-offset 2)
+  (setq-default web-mode-attribute-indent-offset 2))
 
 (use-package projectile-rails
   ;; :ensure t
