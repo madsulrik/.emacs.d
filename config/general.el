@@ -542,32 +542,6 @@
   (company-idle-delay 1.5 "Default is way too low.")
   :config)
 
-;(use-package lsp-mode
-;  :commands (lsp lsp-execute-code-action)
-;  :hook ((go-mode . lsp-deferred)
-;         (lsp-mode . lsp-enable-which-key-integration)
-;         (lsp-mode . lsp-diagnostics-modeline-mode))
-;  :bind ("C-c C-c" . #'lsp-execute-code-action)
-;  :custom
-;  (lsp-diagnostics-modeline-scope :project)
-;  (lsp-file-watch-threshold 5000)
-;  (lsp-response-timeout 2)
-;  (lsp-ui-doc-mode nil)
-;  (lsp-enable-file-watchers nil))
-
-;;; (use-package lsp-ui
-;;;   :custom
-;;;   (lsp-ui-doc-mode nil)
-;;;   :after lsp-mode)
-
-;(use-package lsp-ivy
-;  :after (ivy lsp-mode))
-
-;(use-package company-lsp
-;  :disabled
-;  :custom (company-lsp-enable-snippet t)
-;  :after (company lsp-mode))
-
 (defun mus/lsp-mode-setup ()
   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
   (lsp-headerline-breadcrumb-mode))
@@ -646,6 +620,12 @@
   :config
   (rvm-use-default))
 
+  (use-package web-mode
+    :mode (".html?$" ".erb$")
+    :config
+    (setq-default web-mode-code-indent-offset 2)
+    (setq-default web-mode-markup-indent-offset 2)
+    (setq-default web-mode-attribute-indent-offset 2))
 
 (use-package projectile-rails
   ;; :ensure t
@@ -685,5 +665,29 @@
               ("C-M-x" . #'flutter-run-or-hot-reload))
   :custom
   (flutter-sdk-path "/home/mads/development/flutter"))
+
+(use-package typescript-mode
+  :mode "\\.ts\\'"
+  :hook (typescript-mode . lsp-deferred)
+  :config
+  (setq typescript-indent-level 2))
+
+(defun mus/set-js-indentation ()
+  (setq-default js-indent-level 2)
+  (setq-default evil-shift-width js-indent-level)
+  (setq-default tab-width 2))
+
+(use-package js2-mode
+  :mode "\\.jsx?\\'"
+  :config
+  ;; Use js2-mode for Node scripts
+  (add-to-list 'magic-mode-alist '("#!/usr/bin/env node" . js2-mode))
+
+  ;; Don't use built-in syntax checking
+  (setq js2-mode-show-strict-warnings nil)
+
+  ;; Set up proper indentation in JavaScript and JSON files
+  (add-hook 'js2-mode-hook #'mus/set-js-indentation)
+  (add-hook 'json-mode-hook #'mus/set-js-indentation))
 
 (provide 'init)
