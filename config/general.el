@@ -163,8 +163,20 @@
 
 (use-package exec-path-from-shell)
 
-(when (memq window-system '(mac ns x))
- (exec-path-from-shell-initialize))
+    (when (memq window-system '(mac ns x))
+      (exec-path-from-shell-initialize))
+
+
+(setq mac-option-modifier nil)
+(setq mac-command-modifier 'meta)
+
+
+   (when (string= system-type "darwin")
+     (setq dired-use-ls-dired t
+           insert-directory-program "/opt/homebrew/bin/gls"
+           dired-listing-switches "-aBhl --group-directories-first"))
+   ;; (when (equal system-type 'darwin)
+   ;;  (setq insert-directory-program "/opt/homebrew/bin/gls"))
 
 (set-face-attribute 'default nil :font "Fira Code" :height mus/default-font-size)
 
@@ -183,6 +195,11 @@
   :hook (dired-mode . all-the-icons-dired-mode))
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist '(ns-appearance . dark))
+(setq frame-title-format nil)
+(setq ns-use-proxy-icon nil)
 
 (when (window-system)
   (menu-bar-mode -1)

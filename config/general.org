@@ -291,7 +291,18 @@ There is some path issues when using Mac OSX. The following fixes the issues
   (use-package exec-path-from-shell)
 
   (when (memq window-system '(mac ns x))
-   (exec-path-from-shell-initialize))
+    (exec-path-from-shell-initialize))
+
+  (setq mac-option-modifier nil)
+  (setq mac-command-modifier 'meta)
+
+  (when (string= system-type "darwin")
+    (setq dired-use-ls-dired t
+          insert-directory-program "/opt/homebrew/bin/gls"
+          dired-listing-switches "-aBhl --group-directories-first"))
+  ;; (when (equal system-type 'darwin)
+  ;;  (setq insert-directory-program "/opt/homebrew/bin/gls"))
+
 
 #+end_src
 
@@ -321,8 +332,21 @@ There is some path issues when using Mac OSX. The following fixes the issues
    Every Emacs window should, by default occupy all the screen space it can.
 
    #+begin_src emacs-lisp
+
      (add-to-list 'default-frame-alist '(fullscreen . maximized))
+
    #+end_src
+
+Set a better title bar for osx
+
+#+begin_src emacs-lisp
+
+     (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+     (add-to-list 'default-frame-alist '(ns-appearance . dark))
+     (setq frame-title-format nil)
+     (setq ns-use-proxy-icon nil)
+
+#+end_src
 
    Window chrome both wastes space and looks unappealing.
 
