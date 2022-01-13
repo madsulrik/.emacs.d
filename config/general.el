@@ -45,12 +45,12 @@
  ;; always scroll
  compilation-scroll-output t)
 
-;; Never mix tabs and spaces. Never use tabs, period.
-;; We need the setq-default here because this becomes
-;; a buffer-local variable when set.
-(setq-default indent-tabs-mode nil)
+     ;; Never mix tabs and spaces. Never use tabs, period.
+     ;; We need the setq-default here because this becomes
+     ;; a buffer-local variable when set.
+     (setq-default indent-tabs-mode nil)
 
-(defalias 'yes-or-no-p 'y-or-n-p)       ; Accept 'y' in lieu of 'yes'.
+     (defalias 'yes-or-no-p 'y-or-n-p)       ; Accept 'y' in lieu of 'yes'.
 
 (set-charset-priority 'unicode)
 (setq locale-coding-system 'utf-8)
@@ -281,13 +281,19 @@
                   (org-level-8 . 1.1)))
     (set-face-attribute (car face) nil :font "ETBembo" :weight 'bold :height (cdr face)))
 
+
+
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+
+  (require 'org-indent)
+
   (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
   (set-face-attribute 'org-table nil    :inherit 'fixed-pitch)
   (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
   (set-face-attribute 'org-code nil     :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-table nil    :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-indent nil   :inherit '(org-hide fixed-pitch))
   (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-checkbox nil  :inherit 'fixed-pitch)
@@ -305,7 +311,7 @@
   :config
   (setq org-ellipsis " ▾")
 
-(setq org-src-tab-acts-natively nil)
+  (setq org-src-tab-acts-natively nil)
   (mus/org-font-setup))
 
 (use-package org-bullets
