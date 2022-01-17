@@ -282,10 +282,9 @@
     (set-face-attribute (car face) nil :font "ETBembo" :weight 'bold :height (cdr face)))
 
 
+  (require 'org-indent)
 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
-
-  (require 'org-indent)
 
   (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
   (set-face-attribute 'org-table nil    :inherit 'fixed-pitch)
@@ -567,9 +566,20 @@
   (lsp-ui-doc-mode nil)
   (lsp-enable-file-watchers nil)
   (lsp-auto-guess-root t)
-   (lsp-eldoc-enable-hover t)
+  (lsp-eldoc-enable-hover t)
   :config
   (define-key evil-motion-state-map (kbd "K") 'lsp-describe-thing-at-point))
+
+  ;; something with help buffers displayed at the bottom
+(add-to-list
+ 'display-buffer-alist
+ '((lambda (buffer _)
+     (with-current-buffer
+         buffer
+       (seq-some (lambda (mode) (derived-mode-p mode)) '(help-mode))))
+   (display-buffer-reuse-window display-buffer-below-selected)
+   (reusable-frames . visible)
+   (window-height . 0.33)))
 
 (use-package lsp-ui
   :hook (lsp-mode . lsp-ui-mode)

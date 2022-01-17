@@ -971,9 +971,20 @@ in a =lsp-mode= buffer and trying different things that you find there.
     (lsp-ui-doc-mode nil)
     (lsp-enable-file-watchers nil)
     (lsp-auto-guess-root t)
-     (lsp-eldoc-enable-hover t)
+    (lsp-eldoc-enable-hover t)
     :config
     (define-key evil-motion-state-map (kbd "K") 'lsp-describe-thing-at-point))
+
+    ;; something with help buffers displayed at the bottom
+  (add-to-list
+   'display-buffer-alist
+   '((lambda (buffer _)
+       (with-current-buffer
+           buffer
+         (seq-some (lambda (mode) (derived-mode-p mode)) '(help-mode))))
+     (display-buffer-reuse-window display-buffer-below-selected)
+     (reusable-frames . visible)
+     (window-height . 0.33)))
 #+end_src
 
 
