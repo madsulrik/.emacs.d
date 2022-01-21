@@ -634,6 +634,34 @@ quickfix for a =evil-redirect-digit-argument= error. See [[https://github.com/So
      "on"  '(org-toggle-narrow-to-subtree :which-key "toggle narrow"))
 #+end_src
 
+*** Getting Things Done
+
+#+begin_src emacs-lisp
+(setq org-directory "~/Documents/notes/org")
+(setq org-agenda-files (list "~/Documents/notes/org/inbox.org"))
+#+end_src
+
+We setup up our templates
+
+#+begin_src emacs-lisp
+(setq org-capture-templates
+       `(("i" "Inbox" entry  (file "inbox.org")
+        ,(concat "* TODO %?\n"
+                 "/Entered on/ %U"))))
+#+end_src
+
+and setup a keyboard shortcut =(C-c c)=:
+
+#+begin_src emacs-lisp
+(define-key global-map (kbd "C-c c") 'org-capture)
+#+end_src
+
+Now it is time to setup Org-agenda
+
+#+begin_src emacs-lisp
+(define-key global-map (kbd "C-c a") 'org-agenda)
+#+end_src
+
 ** File Management
 *** Dired
 Dired is a built-in file manager for Emacs that does some pretty amazing things!  Here are some key bindings you should try out:
@@ -767,7 +795,7 @@ Dired is a built-in file manager for Emacs that does some pretty amazing things!
 *** Terminal
 **** Vterm
 is an improved terminal emulator package which uses a compiled native module to interact with the underlying terminal
-applications. This enables it to be much faster than term-mode and to also provide a more complete terminal emulation experience.
+applications. This enables it to be much faster than term-mode and to also provide a complete terminal emulation experience.
 
 Make sure that you have the necessary dependencies installed before trying to use vterm because there is a module that will need to be
 compiled before you can use it successfully.
@@ -887,7 +915,8 @@ configuration it needs is to add [[https://github.com/amperser/proselint][~prose
       :ensure t
       :defer t
       :hook ((org-mode . flyspell-mode)
-             (markdown-mode . flyspell-mode))
+             (markdown-mode . flyspell-mode)
+             (text-mode . flyspell-mode))
       :init
       :config
 
@@ -905,6 +934,21 @@ configuration it needs is to add [[https://github.com/amperser/proselint][~prose
         (setq flyspell-lazy-idle-seconds 1
               flyspell-lazy-window-idle-seconds 3)
         (flyspell-lazy-mode 1)))
+#+end_src
+
+*** Write good
+This is a minor mode to aid in finding common writing problems. Matt Might’s weasel-words scripts inspired this mode.
+
+It highlights text based on a set of weasel-words, passive-voice and duplicate words.
+
+#+begin_src emacs-lisp
+  (use-package writegood-mode
+    :config
+    (mus/leader-keys
+      "g" '(:ignore t :which-key "Write Good Mode")
+      "gg" '(writegood-grade-level :which-key "Write Good Grade level")
+      "ge" '(writegood-reading-ease :which-key "Write Good reading ease")))
+
 #+end_src
 
 *** Searching
