@@ -351,13 +351,28 @@
 (use-package evil-org
   :after org
   :hook ((org-mode . evil-org-mode)
-         (evil-org-mode . (lambda () (evil-org-set-key-theme '(navigation todo insert textobjects additional))))))
+         (evil-org-mode . (lambda () (evil-org-set-key-theme '(navigation todo insert textobjects additional)))))
+  :config
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))
 
 (mus/leader-keys
  "o"   '(:ignore t :which-key "org mode")
  "oi"  '(:ignore t :which-key "insert")
  "oil" '(org-insert-link :which-key "insert link")
  "on"  '(org-toggle-narrow-to-subtree :which-key "toggle narrow"))
+
+(setq org-directory "~/Documents/notes/org")
+(setq org-agenda-files (list "~/Documents/notes/org/inbox.org"))
+
+(setq org-capture-templates
+       `(("i" "Inbox" entry  (file "inbox.org")
+        ,(concat "* TODO %?\n"
+                 "/Entered on/ %U"))))
+
+(define-key global-map (kbd "C-c c") 'org-capture)
+
+(define-key global-map (kbd "C-c a") 'org-agenda)
 
 (use-package dired
   :ensure nil
@@ -507,7 +522,8 @@
   :ensure t
   :defer t
   :hook ((org-mode . flyspell-mode)
-         (markdown-mode . flyspell-mode))
+         (markdown-mode . flyspell-mode)
+         (text-mode . flyspell-mode))
   :init
   :config
 
@@ -525,6 +541,13 @@
     (setq flyspell-lazy-idle-seconds 1
           flyspell-lazy-window-idle-seconds 3)
     (flyspell-lazy-mode 1)))
+
+(use-package writegood-mode
+  :config
+  (mus/leader-keys
+    "g" '(:ignore t :which-key "Write Good Mode")
+    "gg" '(writegood-grade-level :which-key "Write Good Grade level")
+    "ge" '(writegood-reading-ease :which-key "Write Good reading ease")))
 
 (use-package deadgrep
   :ensure t)

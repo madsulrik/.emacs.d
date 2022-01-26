@@ -1,14 +1,15 @@
-* Configuration: !start
+* Configuration
 This config has taken inspiration from the following config files.
+
 - [[https://github.com/aaronbieber/dotfiles/tree/master/configs/emacs.d][Aaron biebers emacs config]]
 - [[https://github.com/patrickt/emacs/blob/master/readme.org][Patrick Thomson's emacs config]]
 - [[https://github.com/daviwil/emacs-from-scratch/blob/master/Emacs.org][Emacs from scratch]]
 
 ** Preliminaries
 
-I'll say it: modern Emacs Lisp is unfairly maligned. However, it was pretty fairly maligned before Emacs 24, which introduced
-lexical scoping. For reasons of compatibility, it's not on by default, and the documentation states that "unlike other file-local
-variables, this must be set in the first line of a file."
+I'll say it: modern Emacs Lisp is unfairly maligned. However, it was pretty fairly maligned before Emacs 24, which introduced lexical
+scoping. For reasons of compatibility, it's not on by default, and the documentation states that "unlike other file-local variables,
+this must be set in the first line of a file."
 
 #+begin_src emacs-lisp
      (setq lexical-binding t)
@@ -625,7 +626,10 @@ quickfix for a =evil-redirect-digit-argument= error. See [[https://github.com/So
     (use-package evil-org
       :after org
       :hook ((org-mode . evil-org-mode)
-             (evil-org-mode . (lambda () (evil-org-set-key-theme '(navigation todo insert textobjects additional))))))
+             (evil-org-mode . (lambda () (evil-org-set-key-theme '(navigation todo insert textobjects additional)))))
+      :config
+      (require 'evil-org-agenda)
+      (evil-org-agenda-set-keys))
 
     (mus/leader-keys
      "o"   '(:ignore t :which-key "org mode")

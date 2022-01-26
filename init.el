@@ -16,16 +16,26 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(require 'org-install)
-(require 'ob-tangle)
+;; (require 'org-install)
+;; (require 'ob-tangle)
 
-(when (boundp 'comp-speed)
-  (setq comp-speed 2))
+;; (when (boundp 'comp-speed)
+;;   (setq comp-speed 2))
 
-(defun reload-config ()
-  (interactive)
-  (org-babel-load-file "~/.emacs.d/config/general.org"))
+;; (defun reload-config ()
+;;   (interactive)
+;;   (org-babel-load-file "~/.emacs.d/config/general.org"))
 
-(setq max-lisp-eval-depth 2000)
+;; (setq max-lisp-eval-depth 2000)
 
-(reload-config)
+;; (reload-config)
+
+(add-hook 'after-init-hook '(lambda ()
+                              (load "~/.emacs.d/config/preliminaries.el")
+                              (load "~/.emacs.d/config/evil.el")
+                              (load "~/.emacs.d/config/osx.el")
+                              (load "~/.emacs.d/config/visual.el")
+                              (load "~/.emacs.d/config/text-manipulation.el")
+                              (load "~/.emacs.d/config/org.el")
+                              (load "~/.emacs.d/config/ide.el")
+                              (load "~/.emacs.d/config/languages.el")))
