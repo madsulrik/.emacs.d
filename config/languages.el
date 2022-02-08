@@ -8,8 +8,14 @@
   (add-to-list 'projectile-project-root-files "Gemfile"))
 
 (use-package ruby-mode
-  :after lsp-mode
-  :hook (ruby-mode . lsp-deferred)
+  ;; :after lsp-mode
+  ;; :hook (ruby-mode . lsp-deferred)
+  :mode "\\.rb\\'"
+  :mode "Rakefile\\'"
+  :mode "Gemfile\\'"
+  :mode "Berksfile\\'"
+  :mode "Vagrantfile\\'"
+  :interpreter "ruby"
   :config
   (setq ruby-insert-encoding-magic-comment nil)
   (use-package inf-ruby
@@ -18,10 +24,26 @@
     :init
     (add-hook 'compilation-filter-hook 'inf-ruby-auto-enter)))
 
-(use-package rvm
-  :diminish
+(use-package rubocop
+  :ensure t
+  :hook (ruby-mode . rubocop-mode)
+  :init
+  :diminish rubocop-mode)
+
+(use-package robe
+  :ensure t
+  ;; :bind ("C-M-." . robe-jump)
+  :init
+  (add-hook 'ruby-mode-hook 'robe-mode)
   :config
-  (rvm-use-default))
+ )
+
+(use-package ruby-tools
+  :ensure t
+  :init
+  (add-hook 'ruby-mode-hook 'ruby-tools-mode)
+  :diminish ruby-tools-mode)
+
 
 (use-package web-mode
   :mode (".html?$" ".erb$")
@@ -39,9 +61,9 @@
   :config
   (define-key projectile-rails-mode-map (kbd "C-c r") 'projectile-rails-command-map))
 
-;;
+;; ---------
 ;; Meta lisp
-;;
+;; ---------
 
 (use-package lispy
   :hook ((emacs-lisp-mode . lispy-mode)
@@ -83,7 +105,7 @@
 ;;
 
 (use-package typescript-mode
-  :mode "\\.ts\\'"
+  :mode ("\\.ts\\'" "\\.tsx\\'")
   :hook (typescript-mode . lsp-deferred)
   :config
   (setq typescript-indent-level 2))
@@ -94,7 +116,7 @@
   (setq-default tab-width 2))
 
 (use-package js2-mode
-  :mode "\\.jsx?\\'"
+  :mode ("\\.js\\'" "\\.jsx?\\'")
   :config
   ;; Use js2-mode for Node scripts
   (add-to-list 'magic-mode-alist '("#!/usr/bin/env node" . js2-mode))
