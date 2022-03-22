@@ -1,7 +1,12 @@
-;;; Evil
+;;; Evil --- Summary
 
-;; Make ESC quit prompts
+;;; Commentary:
+
+;;; Code:
+
+; Make sure escape quits everything
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
 
 (use-package general
   :after evil
@@ -43,3 +48,6 @@
   :after evil
   :config
   (evil-commentary-mode))
+
+(provide 'evil)
+;;; Evil ends here

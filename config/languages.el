@@ -61,6 +61,15 @@
   :config
   (define-key projectile-rails-mode-map (kbd "C-c r") 'projectile-rails-command-map))
 
+
+;; ----
+;; Crystal language
+;; -----
+
+(use-package crystal-mode
+  :mode (".cr$")
+  )
+
 ;; ---------
 ;; Meta lisp
 ;; ---------
@@ -75,6 +84,19 @@
   (lispyville-set-key-theme '(operators c-w additional
                                         additional-movement slurp/barf-cp
                                         prettify)))
+
+;; Clojure
+
+(use-package clojure-mode
+  :ensure t
+  :mode (("\\.clj\\'" . clojure-mode)
+         ("\\.edn\\'" . clojure-mode))
+  :init)
+
+(use-package cider
+  :mode "\\.clj[sc]?\\'"
+  :config
+  (evil-collection-cider-setup))
 
 ;;
 ;; Dart and flutter
