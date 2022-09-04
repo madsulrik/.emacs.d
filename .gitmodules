@@ -1,0 +1,3 @@
+[submodule "lisp/vilpy"]
+	path = lisp/vilpy
+	url = https://github.com/Andre0991/vilpy.git

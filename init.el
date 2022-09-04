@@ -24,6 +24,28 @@
     ;; initialize leaf-keywords.el
     (leaf-keywords-init)))
 
+;; Compile
+;; (eval-and-compile
+;;   (leaf *byte-compile
+;;     :custom
+;;     (byte-compile-warnings . '(not free-vars))
+;;     (debug-on-error        . nil)))
+;; (leaf *native-compile
+;;   :doc "Native Compile by gccemacs"
+;;   :url "https://www.emacswiki.org/emacs/GccEmacs"
+;;   :if (and (fboundp 'native-comp-available-p)
+;;            (native-comp-available-p))
+;;   :custom
+;;   (comp-deferred-compilation . nil)
+;;   (comp-speed                . 5)
+;;   (comp-num-cpus             . 4)
+;;   :config
+;;   ;; (native-compile-async "~/.emacs.d/early-init.el" 4 t)
+;;   (native-compile-async "~/.emacs.d/init.el" 4 t)
+;;   (native-compile-async "~/.emacs.d/elpa/" 4 t)
+;;   (native-compile-async "~/.emacs.d/lisp/" 4 t)
+;;   ;; (native-compile-async "~/.emacs.d/el-get/" 4 t)
+;;   )
 
 ;; -----------------------------------------------------------------------------------------
 ;;
@@ -548,6 +570,7 @@
 
 (leaf web-mode
   :mode (".html?$" ".erb$")
+  :ensure t
   ;; :hook 
   ;; (web-mode-hook . eglot-ensure)
   :config
@@ -555,7 +578,17 @@
   (setq-default web-mode-markup-indent-offset 2)
   (setq-default web-mode-attribute-indent-offset 2))
 
+(leaf emmet-mode
+  :doc "the essential toolkit for web-developers"
+  :url "https://github.com/smihica/emmet-mode"
+  :ensure t
+  :hook
+  (web-mode-hook . emmet-mode)
+  ;; :config
+  )
+
 (leaf css-mode
+  :ensure t
   ;; :hook
   ;; (css-mode-hook . eglot-ensure)
   )
@@ -580,6 +613,43 @@
   :after dart-mode)
 
 ;; Clojure ------------------------------------------------------------------------------
+
+
+(leaf clojure-mode
+  :doc "clojure-mode is an Emacs major mode that provides font-lock (syntax highlighting), indentation, navigation and refactoring support"
+  :url "https://github.com/clojure-emacs/clojure-mode"
+  :ensure t
+  :hook
+  (clojure-mode-hook . eglot-ensure)
+  (clojurescript-mode-hook . eglot-ensure)
+  (clojurec-mode-hook . eglot-ensure)
+  :config
+  (require 'flycheck-clj-kondo))
+(leaf flycheck-clj-kondo
+  :ensure t)
+(leaf cider
+  :doc "CIDER extends Emacs with support for interactive programming in Clojure. "
+  :url "https://github.com/clojure-emacs/cider"
+  :ensure t)
+
+
+;; Vilpy or paredit or lispy
+(leaf avy ;; requirements to vilpy
+  :doc "Jump to things in tree-style"
+  :url "https://github.com/abo-abo/avy"
+  :ensure t)
+
+(leaf vilpy
+  :load-path ("~/.emacs.d/lisp/vilpy")
+  :require t
+  :doc "vilpy is a vi-like paredit"
+  :url "https://github.com/Andre0991/vilpy"
+  :hook
+  (clojure-mode-hook . vilpy-mode)
+  (emacs-lisp-mode-hook . vilpy-mode))
+
+
+
 
 (provide 'init)
 ;;; init.el ends here
