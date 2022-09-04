@@ -1,3 +1,9 @@
 * .emacs.d
 
+#+CAPTION: Screenshot of emacs config in action
+#+NAME:   fig:main
+[[./screenshots/main.png]]
+
+---
+
 The new and improved™ emacs config.

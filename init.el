@@ -264,10 +264,6 @@
   (setq doom-modeline-lsp t))
 
 
-(leaf all-the-icons
-  :doc "All the icons is used by NeoTree"
-  :url "https://github.com/domtronn/all-the-icons.el"
-  :ensure t)
 
 ;; -----------------------------------------------------------------------------------------
 ;;
@@ -447,13 +443,48 @@
 ;;
 ;; -----------------------------------------------------------------------------------------
 
+(leaf all-the-icons
+  :doc "All the icons is used by NeoTree"
+  :url "https://github.com/domtronn/all-the-icons.el"
+  :ensure t)
+
 (leaf neotree
   :doc "Sidebar for dired"
   :url "https://github.com/jaypei/emacs-neotree"
   :ensure t
-  :config
-  ;; TODO: missing config
-  )
+  :commands (neotree-toggle)
+  :init
+  (setq neo-create-file-auto-open nil
+        neo-auto-indent-point nil
+        neo-autorefresh nil
+        neo-mode-line-type 'none
+        neo-window-width 30
+        neo-show-updir-line nil
+        neo-theme 'icons
+        neo-banner-message nil
+        neo-confirm-create-file #'off-p
+        neo-confirm-create-directory #'off-p
+        neo-show-hidden-files nil
+        neo-keymap-style 'concise
+        neo-show-hidden-files t
+        neo-hidden-regexp-list
+        '(;; vcs folders
+          "^\\.\\(?:git\\|hg\\|svn\\)$"
+          ;; compiled files
+          "\\.\\(?:pyc\\|o\\|elc\\|lock\\|css.map\\|class\\)$"
+          ;; generated files, caches or local pkgs
+          "^\\(?:node_modules\\|vendor\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"
+          ;; org-mode folders
+          "^\\.\\(?:sync\\|export\\|attach\\)$"
+          ;; temp files
+          "~$"
+          "^#.*#$"))
+  :init
+  (mus/leader-key-def
+    "o" '(:ignore t :which-key "open")
+    "op" 'neotree-toggle
+    ))
+
 
 ;; Git ------------------------------------------------------------------------------------
 
@@ -485,6 +516,7 @@
 (leaf git-gutter
   :doc "Show git status in fringe & operate hunks"
   :url "https://github.com/emacsorphanage/git-gutter"
+  :disabled t
   :ensure t
   :global-minor-mode global-git-gutter-mode
   :custom
@@ -647,7 +679,6 @@
   :hook
   (clojure-mode-hook . vilpy-mode)
   (emacs-lisp-mode-hook . vilpy-mode))
-
 
 
 
