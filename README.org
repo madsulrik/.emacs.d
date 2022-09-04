@@ -4,6 +4,6 @@
 #+NAME:   fig:main
 [[./screenshots/main.png]]
 
----
+-----
 
 The new and improved™ emacs config.
