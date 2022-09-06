@@ -190,6 +190,7 @@
     :prefix "SPC"
     :global-prefix "C-SPC")
   (general-create-definer mus/local-leader-key-def
+    :states '(normal visual emacs)
     :prefix ","
     :global-prefix "C-,")
   (general-create-definer mus/ctrl-c-keys
