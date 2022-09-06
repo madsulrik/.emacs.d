@@ -454,6 +454,23 @@
   :url "https://github.com/jaypei/emacs-neotree"
   :ensure t
   :commands (neotree-toggle)
+  :preface
+  (defun neotree-project-dir ()
+    "Open NeoTree using the git root."
+    (interactive)
+    (let ((project-dir (projectile-project-root))
+          (file-name (buffer-file-name)))
+      (neotree-toggle)
+      (if project-dir
+          (if (neo-global--window-exists-p)
+              (progn
+                (neotree-dir project-dir)
+                (neotree-find file-name)))
+        (message "Could not find git project root."))))
+  (defun mus/neotree-hook (&optional _unused)
+    (display-line-numbers-mode -1))
+  :hook
+  (neotree-mode-hook . mus/neotree-hook)
   :init
   (setq neo-create-file-auto-open nil
         neo-auto-indent-point nil
@@ -480,10 +497,9 @@
           ;; temp files
           "~$"
           "^#.*#$"))
-  :init
   (mus/leader-key-def
     "o" '(:ignore t :which-key "open")
-    "op" 'neotree-toggle
+    "op" 'neotree-project-dir
     ))
 
 
