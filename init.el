@@ -469,6 +469,9 @@
         (message "Could not find git project root."))))
   (defun mus/neotree-hook (&optional _unused)
     (display-line-numbers-mode -1))
+  ;; (defun mus/neotree-fix-cursor-h (&rest _)
+  ;;   (with-current-buffer neo-global--buffer
+  ;;     (mus/neotree-ident-cursor-a)))
   :hook
   (neotree-mode-hook . mus/neotree-hook)
   :init
@@ -559,9 +562,13 @@
 
 (leaf eglot
   :doc "An Emacs LSP client that stays out of your way"
-  :url "https://github.com/joaotavora/eglo"
+  :url "https://github.com/joaotavora/eglot"
   :ensure t
-  ;; TODO: add keymap
+  :config
+  (mus/leader-key-def
+    "c" '(:ignore t :which-key "code")
+    "ca" 'eglot-code-actions
+    "ci" 'eglot-format)
   )
 
 
@@ -582,9 +589,10 @@
   (ruby-mode-hook . eglot-ensure)
   :config
   (setq ruby-insert-encoding-magic-comment nil)
-  (mus/local-leader-key-def
-    :keymaps 'ruby-mode-map
-    "'" 'robe-start))
+  ;; (mus/local-leader-key-def
+  ;;   :keymaps 'ruby-mode-map
+  ;;   "'" 'robe-start)
+  )
 (leaf inf-ruby
   :doc "inf-ruby provides a REPL buffer connected to a Ruby subprocess."
   :url "https://github.com/nonsequitur/inf-ruby"
@@ -679,7 +687,14 @@
 (leaf cider
   :doc "CIDER extends Emacs with support for interactive programming in Clojure. "
   :url "https://github.com/clojure-emacs/cider"
-  :ensure t)
+  :ensure t
+  ;; TODO: fix key commands
+  :config
+  (mus/local-leader-key-def
+    :keymaps 'clojure-mode-map
+    "'"  'cider-jack-in-clj
+    "\"" 'cider-jack-in-cljs
+    ))
 
 
 ;; Vilpy or paredit or lispy
