@@ -626,7 +626,8 @@
 ;; projectile-rails
 
 (leaf web-mode
-  :mode (".html?$" ".erb$")
+  ;; :mode "(\\.\\(html?\\|.erb$\\|ejs\\|tsx\\|jsx\\)\\'"
+  :mode (".html?$" ".erb$" "(\\.\\(html?\\|ejs\\|tsx\\|jsx\\)\\'")
   :ensure t
   ;; :hook 
   ;; (web-mode-hook . eglot-ensure)
@@ -652,6 +653,42 @@
   
 
 ;; Typescript ---------------------------------------------------------------------------
+
+(leaf rjsx-mode
+  :mode "\\.[mc]?js\\'"
+  :mode "\\.es6\\'" "(\\.\\(html?\\|ejs\\|tsx\\|jsx\\)\\'"
+  :mode "\\.pac\\'"
+  :interpreter "node"
+  :ensure t
+  :config
+  (setq js-chain-indent t
+        ;; These have become standard in the JS community
+        js2-basic-offset 2
+        ;; Don't mishighlight shebang lines
+        js2-skip-preprocessor-directives t
+        ;; let flycheck handle this
+        js2-mode-show-parse-errors nil
+        js2-mode-show-strict-warnings nil
+        ;; Flycheck provides these features, so disable them: conflicting with
+        ;; the eslint settings.
+        js2-strict-missing-semi-warning nil
+        ;; maximum fontification
+        js2-highlight-level 3
+        js2-idle-timer-delay 0.15))
+
+;; (leaf js2-mode
+;;   :doc "Improved JavaScript editing mode"
+;;   :url "https://github.com/mooz/js2-mode"
+;;   :ensure t
+;;   :mode "\\.js\\'")
+
+(leaf typescript-mode
+  :mode ("\\.ts\\'")
+  :ensure t
+  :hook
+  (typescript-mode-hook . eglot-ensure)
+  :config
+  (setq typescript-indent-level 2))
 
 
 ;; Dart + Flutter -----------------------------------------------------------------------
